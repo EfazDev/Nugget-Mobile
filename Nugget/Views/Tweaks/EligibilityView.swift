@@ -17,7 +17,7 @@ struct EligibilityView: View {
 
     struct DeviceSubType: Identifiable {
         var id = UUID()
-        var key: Int
+        var key: String
         var title: String
         var minVersion: Version = Version(string: "18.1")
     }
@@ -25,7 +25,7 @@ struct EligibilityView: View {
     @State private var spoofDeviceStack: [DeviceSubType] = {
         if UIDevice.current.userInterfaceIdiom == .pad {
             return [
-                .init(key: -1, title: NSLocalizedString("Default", comment: "default device subtype")),
+                .init(key: "-1", title: NSLocalizedString("Default", comment: "default device subtype")),
                 .init(key: "iPad16,1", title: NSLocalizedString("iPad Mini (A17 Pro) (W)", comment: "")),
                 .init(key: "iPad16,2", title: NSLocalizedString("iPad Mini (A17 Pro) (C)", comment: "")),
             
@@ -52,7 +52,7 @@ struct EligibilityView: View {
             ]
         } else {
             return [
-                .init(key: -1, title: NSLocalizedString("Default", comment: "default device subtype")),
+                .init(key: "-1", title: NSLocalizedString("Default", comment: "default device subtype")),
                 .init(key: "iPhone16,1", title: NSLocalizedString("iPhone 15 Pro", comment: "")),
                 .init(key: "iPhone16,2", title: NSLocalizedString("iPhone 15 Pro Max", comment: "")),
                 .init(key: "iPhone17,3", title: NSLocalizedString("iPhone 16", comment: "")),
@@ -126,13 +126,13 @@ struct EligibilityView: View {
                                     .onChange(of: CurrentSubType) { newValue in
                                         if let selectedDevice = spoofDeviceStack.first(where: { $0.key == newValue }) {
                                             CurrentSubTypeDisplay = selectedDevice.title
-                                            manager.setDeviceModelCode(-1, newValue)
+                                            manager.setDeviceModelCode("-1", newValue)
                                         }
                                     }
                                 }
                             }
                         }.onChange(of: changeDeviceModel) { nv in
-                            manager.setDeviceModelCode(nv, -1)
+                            manager.setDeviceModelCode(nv, "-1")
                         }
                     }
                 } header: {

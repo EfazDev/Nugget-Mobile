@@ -97,8 +97,10 @@ class EligibilityManager: ObservableObject {
             spoofingDevice = false;
         }
         if spoofingDevice {
-            if let newModelInt = new_model as? Int, newModelInt != -1 {
+            if let newModelInt = new_model as? String, newModelInt != "-1" {
                 MobileGestaltManager.shared.setGestaltValue(key: "h9jDsbgj7xIVeIQ8S3/X3Q", value: new_model)
+            } else {
+                MobileGestaltManager.shared.setGestaltValue(key: "h9jDsbgj7xIVeIQ8S3/X3Q", value: model)
             }
         } else {
             if let model = MobileGestaltManager.shared.deviceModel {
