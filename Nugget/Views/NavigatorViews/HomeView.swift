@@ -197,10 +197,7 @@ struct HomeView: View {
     }
     
     func applyChanges(reverting: Bool) {
-        if pairingFile == nil {
-            lastError = "Please select your pairing file to continue."
-            showErrorAlert.toggle()
-        } else {
+        if ApplyHandler.shared.trollstore || ready() {
             if !reverting && ApplyHandler.shared.allEnabledTweaks().isEmpty {
                 // if there are no enabled tweaks then tell the user
                 UIApplication.shared.alert(body: "You do not have any tweaks enabled! Go to the tools page to select some.")
@@ -209,6 +206,23 @@ struct HomeView: View {
             } else if !ApplyHandler.shared.trollstore {
                 // if applying non-exploit files, warn about setup
                 UIApplication.shared.confirmAlert(title: "Warning!", body: "You are applying non-exploit related files. This will make the setup screen appear. Click Cancel if you do not wish to proceed.\n\nWhen setting up, you MUST click \"Do not transfer apps & data\".\n\nIf you see a screen that says \"iPhone Partially Set Up\", DO NOT tap the big blue button. You must click \"Continue with Partial Setup\".", onOK: {
+                    path.append(reverting ? "RevertChanges" : "ApplyChanges")
+                }, noCancel: false)
+            }
+        } else if pairingFile == nil {
+            lastError = "Please select your pairing file to continue."
+            showErrorAlert.toggle()
+        } else {
+            if !reverting && ApplyHandler.shared.allEnabledTweaks().isEmpty {
+                // if there are no enabled tweaks then tell the user
+                UIApplication.shared.alert(body: "You do not have any tweaks enabled! Go to the tools page to select some.")
+            } else if ApplyHandler.shared.isExploitOnly() {
+                UIApplication.shared.confirmAlert(title: "WARNING!", body: "You're applying files without minimuxer ready! This may cause issues!!", onOK: {
+                    path.append(reverting ? "RevertChanges" : "ApplyChanges")
+                }, noCancel: false)
+            } else if !ApplyHandler.shared.trollstore {
+                // if applying non-exploit files, warn about setup
+                UIApplication.shared.confirmAlert(title: "WARNING!", body: "You are applying non-exploit related files with minimuxer not ready! This may cause issues!! This also will make the setup screen appear. Click Cancel if you do not wish to proceed.\n\nWhen setting up, you MUST click \"Do not transfer apps & data\".\n\nIf you see a screen that says \"iPhone Partially Set Up\", DO NOT tap the big blue button. You must click \"Continue with Partial Setup\".", onOK: {
                     path.append(reverting ? "RevertChanges" : "ApplyChanges")
                 }, noCancel: false)
             }
