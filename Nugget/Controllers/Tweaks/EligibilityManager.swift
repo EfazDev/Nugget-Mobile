@@ -16,24 +16,6 @@ class EligibilityManager: ObservableObject {
     /* Eligibility Tweaks */
     @Published var euEnabler: Bool = false
     @Published var aiEnabler: Bool = false
-    var deviceSubType: Int
-    @Published var deviceModel: String?
-
-    init() {
-        deviceSubType = UserDefaults.standard.integer(forKey: "DeviceSubType")
-        if deviceSubType == -1 || deviceSubType == 0 {
-            if let newSubType = try? getDefaultDeviceSubtype() {
-                UserDefaults.standard.setValue(newSubType, forKey: "DeviceSubType")
-                deviceSubType = newSubType
-            }
-        }
-        deviceModel = UserDefaults.standard.string(forKey: "DeviceModel")
-        if deviceModel == nil {
-            if let newModel = try? getDefaultDeviceModel() {
-                deviceModel = newModel
-            }
-        }
-    }
     
     func setRegionCode(_ dict: [String: Any], newRegion: String) -> [String: Any] {
         var newDict = dict
@@ -109,11 +91,13 @@ class EligibilityManager: ObservableObject {
     }
     
     func setDeviceModelCode(_ enabled: Any, _ new_model: Any) {
-        if !(enabled == -1) {
-            spoofingDevice = enabled;
+        if let enabledBool = enabled as? Bool, enabledBool {
+            spoofingDevice = enabledBool;
+        } else {
+            spoofingDevice = false;
         }
         if spoofingDevice {
-            if !(new_model == -1) {
+            if let newModelInt = new_model as? Int, newModelInt != -1 {
                 MobileGestaltManager.shared.setGestaltValue(key: "h9jDsbgj7xIVeIQ8S3/X3Q", value: new_model)
             }
         } else {

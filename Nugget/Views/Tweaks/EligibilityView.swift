@@ -21,6 +21,47 @@ struct EligibilityView: View {
         var title: String
         var minVersion: Version = Version(string: "18.1")
     }
+
+    @State private var spoofDeviceStack: [DeviceSubType] = {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return [
+                .init(key: -1, title: NSLocalizedString("Default", comment: "default device subtype")),
+                .init(key: "iPad16,1", title: NSLocalizedString("iPad Mini (A17 Pro) (W)", comment: "")),
+                .init(key: "iPad16,2", title: NSLocalizedString("iPad Mini (A17 Pro) (C)", comment: "")),
+            
+                .init(key: "iPad16,5", title: NSLocalizedString("iPad Pro (13-inch) (M4) (W)", comment: "")),
+                .init(key: "iPad16,6", title: NSLocalizedString("iPad Pro (13-inch) (M4) (C)", comment: "")),
+                .init(key: "iPad16,3", title: NSLocalizedString("iPad Pro (11-inch) (M4) (W)", comment: "")),
+                .init(key: "iPad16,4", title: NSLocalizedString("iPad Pro (11-inch) (M4) (C)", comment: "")),
+
+                .init(key: "iPad14,5", title: NSLocalizedString("iPad Pro (12.9-inch) (M2) (W)", comment: "")),
+                .init(key: "iPad14,6", title: NSLocalizedString("iPad Pro (12.9-inch) (M2) (C)", comment: "")),
+                .init(key: "iPad14,3", title: NSLocalizedString("iPad Pro (11-inch) (M2) (W)", comment: "")),
+                .init(key: "iPad14,4", title: NSLocalizedString("iPad Pro (11-inch) (M2) (C)", comment: "")),
+                .init(key: "iPad14,10", title: NSLocalizedString("iPad Air (13-inch) (M2) (W)", comment: "")),
+                .init(key: "iPad14,11", title: NSLocalizedString("iPad Air (13-inch) (M2) (C)", comment: "")),
+                .init(key: "iPad14,8", title: NSLocalizedString("iPad Air (11-inch) (M2) (W)", comment: "")),
+                .init(key: "iPad14,9", title: NSLocalizedString("iPad Air (11-inch) (M2) (C)", comment: "")),
+
+                .init(key: "iPad13,4", title: NSLocalizedString("iPad Pro (11-inch) (M1) (W)", comment: "")),
+                .init(key: "iPad13,5", title: NSLocalizedString("iPad Pro (11-inch) (M1) (C)", comment: "")),
+                .init(key: "iPad13,8", title: NSLocalizedString("iPad Pro (12.9-inch) (M1) (W)", comment: "")),
+                .init(key: "iPad13,9", title: NSLocalizedString("iPad Pro (12.9-inch) (M1) (C)", comment: "")),
+                .init(key: "iPad13,16", title: NSLocalizedString("iPad Air (M1) (W)", comment: "")),
+                .init(key: "iPad13,17", title: NSLocalizedString("iPad Air (M1) (C)", comment: "")),
+            ]
+        } else {
+            return [
+                .init(key: -1, title: NSLocalizedString("Default", comment: "default device subtype")),
+                .init(key: "iPhone16,1", title: NSLocalizedString("iPhone 15 Pro", comment: "")),
+                .init(key: "iPhone16,2", title: NSLocalizedString("iPhone 15 Pro Max", comment: "")),
+                .init(key: "iPhone17,3", title: NSLocalizedString("iPhone 16", comment: "")),
+                .init(key: "iPhone17,4", title: NSLocalizedString("iPhone 16 Plus", comment: "")),
+                .init(key: "iPhone17,1", title: NSLocalizedString("iPhone 16 Pro", comment: "")),
+                .init(key: "iPhone17,2", title: NSLocalizedString("iPhone 16 Pro Max", comment: ""))
+            ]
+        }
+    }()
     
     var body: some View {
         List {
@@ -64,48 +105,7 @@ struct EligibilityView: View {
                             }
                             Section {
                                 // device subtype
-                                HStack {
-                                    @State var spoofDeviceStack: [DeviceSubType] = {
-                                        if UIDevice.current.userInterfaceIdiom == .pad {
-                                            return [
-                                                .init(key: -1, title: NSLocalizedString("Default", comment: "default device subtype")),
-                                                .init(key: "iPad16,1", title: NSLocalizedString("iPad Mini (A17 Pro) (W)", comment: "")),
-                                                .init(key: "iPad16,2", title: NSLocalizedString("iPad Mini (A17 Pro) (C)", comment: "")),
-                                            
-                                                .init(key: "iPad16,5", title: NSLocalizedString("iPad Pro (13-inch) (M4) (W)", comment: "")),
-                                                .init(key: "iPad16,6", title: NSLocalizedString("iPad Pro (13-inch) (M4) (C)", comment: "")),
-                                                .init(key: "iPad16,3", title: NSLocalizedString("iPad Pro (11-inch) (M4) (W)", comment: "")),
-                                                .init(key: "iPad16,4", title: NSLocalizedString("iPad Pro (11-inch) (M4) (C)", comment: "")),
-
-                                                .init(key: "iPad14,5", title: NSLocalizedString("iPad Pro (12.9-inch) (M2) (W)", comment: "")),
-                                                .init(key: "iPad14,6", title: NSLocalizedString("iPad Pro (12.9-inch) (M2) (C)", comment: "")),
-                                                .init(key: "iPad14,3", title: NSLocalizedString("iPad Pro (11-inch) (M2) (W)", comment: "")),
-                                                .init(key: "iPad14,4", title: NSLocalizedString("iPad Pro (11-inch) (M2) (C)", comment: "")),
-                                                .init(key: "iPad14,10", title: NSLocalizedString("iPad Air (13-inch) (M2) (W)", comment: "")),
-                                                .init(key: "iPad14,11", title: NSLocalizedString("iPad Air (13-inch) (M2) (C)", comment: "")),
-                                                .init(key: "iPad14,8", title: NSLocalizedString("iPad Air (11-inch) (M2) (W)", comment: "")),
-                                                .init(key: "iPad14,9", title: NSLocalizedString("iPad Air (11-inch) (M2) (C)", comment: "")),
-
-                                                .init(key: "iPad13,4", title: NSLocalizedString("iPad Pro (11-inch) (M1) (W)", comment: "")),
-                                                .init(key: "iPad13,5", title: NSLocalizedString("iPad Pro (11-inch) (M1) (C)", comment: "")),
-                                                .init(key: "iPad13,8", title: NSLocalizedString("iPad Pro (12.9-inch) (M1) (W)", comment: "")),
-                                                .init(key: "iPad13,9", title: NSLocalizedString("iPad Pro (12.9-inch) (M1) (C)", comment: "")),
-                                                .init(key: "iPad13,16", title: NSLocalizedString("iPad Air (M1) (W)", comment: "")),
-                                                .init(key: "iPad13,17", title: NSLocalizedString("iPad Air (M1) (C)", comment: "")),
-                                            ]
-                                        } else {
-                                            return [
-                                                .init(key: -1, title: NSLocalizedString("Default", comment: "default device subtype")),
-                                                .init(key: "iPhone16,1", title: NSLocalizedString("iPhone 15 Pro", comment: "")),
-                                                .init(key: "iPhone16,2", title: NSLocalizedString("iPhone 15 Pro Max", comment: "")),
-                                                .init(key: "iPhone17,3", title: NSLocalizedString("iPhone 16", comment: "")),
-                                                .init(key: "iPhone17,4", title: NSLocalizedString("iPhone 16 Plus", comment: "")),
-                                                .init(key: "iPhone17,1", title: NSLocalizedString("iPhone 16 Pro", comment: "")),
-                                                .init(key: "iPhone17,2", title: NSLocalizedString("iPhone 16 Pro Max", comment: ""))
-                                            ]
-                                        }
-                                    }()
-                                    
+                                HStack {                                    
                                     Image(systemName: "ipodtouch")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
