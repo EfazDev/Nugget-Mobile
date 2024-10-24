@@ -69,39 +69,39 @@ struct EligibilityView: View {
                                         if UIDevice.current.userInterfaceIdiom == .pad {
                                             return [
                                                 .init(key: -1, title: NSLocalizedString("Default", comment: "default device subtype")),
-                                                .init(key: "iPad16,1", title: NSLocalizedString("iPad Mini (A17 Pro) (W)")),
-                                                .init(key: "iPad16,2", title: NSLocalizedString("iPad Mini (A17 Pro) (C)")),
+                                                .init(key: "iPad16,1", title: NSLocalizedString("iPad Mini (A17 Pro) (W)", comment: "")),
+                                                .init(key: "iPad16,2", title: NSLocalizedString("iPad Mini (A17 Pro) (C)", comment: "")),
                                             
-                                                .init(key: "iPad16,5", title: NSLocalizedString("iPad Pro (13-inch) (M4) (W)")),
-                                                .init(key: "iPad16,6", title: NSLocalizedString("iPad Pro (13-inch) (M4) (C)")),
-                                                .init(key: "iPad16,3", title: NSLocalizedString("iPad Pro (11-inch) (M4) (W)")),
-                                                .init(key: "iPad16,4", title: NSLocalizedString("iPad Pro (11-inch) (M4) (C)")),
+                                                .init(key: "iPad16,5", title: NSLocalizedString("iPad Pro (13-inch) (M4) (W)", comment: "")),
+                                                .init(key: "iPad16,6", title: NSLocalizedString("iPad Pro (13-inch) (M4) (C)", comment: "")),
+                                                .init(key: "iPad16,3", title: NSLocalizedString("iPad Pro (11-inch) (M4) (W)", comment: "")),
+                                                .init(key: "iPad16,4", title: NSLocalizedString("iPad Pro (11-inch) (M4) (C)", comment: "")),
 
-                                                .init(key: "iPad14,5", title: NSLocalizedString("iPad Pro (12.9-inch) (M2) (W)")),
-                                                .init(key: "iPad14,6", title: NSLocalizedString("iPad Pro (12.9-inch) (M2) (C)")),
-                                                .init(key: "iPad14,3", title: NSLocalizedString("iPad Pro (11-inch) (M2) (W)")),
-                                                .init(key: "iPad14,4", title: NSLocalizedString("iPad Pro (11-inch) (M2) (C)")),
-                                                .init(key: "iPad14,10", title: NSLocalizedString("iPad Air (13-inch) (M2) (W)")),
-                                                .init(key: "iPad14,11", title: NSLocalizedString("iPad Air (13-inch) (M2) (C)")),
-                                                .init(key: "iPad14,8", title: NSLocalizedString("iPad Air (11-inch) (M2) (W)")),
-                                                .init(key: "iPad14,9", title: NSLocalizedString("iPad Air (11-inch) (M2) (C)")),
+                                                .init(key: "iPad14,5", title: NSLocalizedString("iPad Pro (12.9-inch) (M2) (W)", comment: "")),
+                                                .init(key: "iPad14,6", title: NSLocalizedString("iPad Pro (12.9-inch) (M2) (C)", comment: "")),
+                                                .init(key: "iPad14,3", title: NSLocalizedString("iPad Pro (11-inch) (M2) (W)", comment: "")),
+                                                .init(key: "iPad14,4", title: NSLocalizedString("iPad Pro (11-inch) (M2) (C)", comment: "")),
+                                                .init(key: "iPad14,10", title: NSLocalizedString("iPad Air (13-inch) (M2) (W)", comment: "")),
+                                                .init(key: "iPad14,11", title: NSLocalizedString("iPad Air (13-inch) (M2) (C)", comment: "")),
+                                                .init(key: "iPad14,8", title: NSLocalizedString("iPad Air (11-inch) (M2) (W)", comment: "")),
+                                                .init(key: "iPad14,9", title: NSLocalizedString("iPad Air (11-inch) (M2) (C)", comment: "")),
 
-                                                .init(key: "iPad13,4", title: NSLocalizedString("iPad Pro (11-inch) (M1) (W)")),
-                                                .init(key: "iPad13,5", title: NSLocalizedString("iPad Pro (11-inch) (M1) (C)")),
-                                                .init(key: "iPad13,8", title: NSLocalizedString("iPad Pro (12.9-inch) (M1) (W)")),
-                                                .init(key: "iPad13,9", title: NSLocalizedString("iPad Pro (12.9-inch) (M1) (C)")),
-                                                .init(key: "iPad13,16", title: NSLocalizedString("iPad Air (M1) (W)")),
-                                                .init(key: "iPad13,17", title: NSLocalizedString("iPad Air (M1) (C)")),
+                                                .init(key: "iPad13,4", title: NSLocalizedString("iPad Pro (11-inch) (M1) (W)", comment: "")),
+                                                .init(key: "iPad13,5", title: NSLocalizedString("iPad Pro (11-inch) (M1) (C)", comment: "")),
+                                                .init(key: "iPad13,8", title: NSLocalizedString("iPad Pro (12.9-inch) (M1) (W)", comment: "")),
+                                                .init(key: "iPad13,9", title: NSLocalizedString("iPad Pro (12.9-inch) (M1) (C)", comment: "")),
+                                                .init(key: "iPad13,16", title: NSLocalizedString("iPad Air (M1) (W)", comment: "")),
+                                                .init(key: "iPad13,17", title: NSLocalizedString("iPad Air (M1) (C)", comment: "")),
                                             ]
                                         } else {
                                             return [
                                                 .init(key: -1, title: NSLocalizedString("Default", comment: "default device subtype")),
-                                                .init(key: "iPhone16,1", title: NSLocalizedString("iPhone 15 Pro")),
-                                                .init(key: "iPhone16,2", title: NSLocalizedString("iPhone 15 Pro Max")),
-                                                .init(key: "iPhone17,3", title: NSLocalizedString("iPhone 16")),
-                                                .init(key: "iPhone17,4", title: NSLocalizedString("iPhone 16 Plus")),
-                                                .init(key: "iPhone17,1", title: NSLocalizedString("iPhone 16 Pro")),
-                                                .init(key: "iPhone17,2", title: NSLocalizedString("iPhone 16 Pro Max"))
+                                                .init(key: "iPhone16,1", title: NSLocalizedString("iPhone 15 Pro", comment: "")),
+                                                .init(key: "iPhone16,2", title: NSLocalizedString("iPhone 15 Pro Max", comment: "")),
+                                                .init(key: "iPhone17,3", title: NSLocalizedString("iPhone 16", comment: "")),
+                                                .init(key: "iPhone17,4", title: NSLocalizedString("iPhone 16 Plus", comment: "")),
+                                                .init(key: "iPhone17,1", title: NSLocalizedString("iPhone 16 Pro", comment: "")),
+                                                .init(key: "iPhone17,2", title: NSLocalizedString("iPhone 16 Pro Max", comment: ""))
                                             ]
                                         }
                                     }()
@@ -151,43 +151,5 @@ struct EligibilityView: View {
     
     func showInfoAlert(_ body: String) {
         UIApplication.shared.alert(title: "Info", body: body)
-    }
-
-    func showSubTypeChangerPopup() {
-        // create and configure alert controller
-        let alert = UIAlertController(title: NSLocalizedString("Choose a device subtype"), message: "", preferredStyle: .actionSheet)
-        
-        // create the actions
-        
-        for type in deviceSubTypes {
-            if userVersion >= type.minVersion {
-                let newAction = UIAlertAction(title: type.title + " (" + String(type.key) + ")", style: .default) { (action) in
-                    // apply the type
-                    gestaltManager.setGestaltValue(key: "ArtworkDeviceSubType", value: type.key)
-                    CurrentSubType = type.key
-                    CurrentSubTypeDisplay = type.title
-                }
-                if CurrentSubType == type.key {
-                    // add a check mark
-                    newAction.setValue(true, forKey: "checked")
-                }
-                alert.addAction(newAction)
-            }
-        }
-        
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel"), style: .cancel) { (action) in
-            // cancels the action
-        }
-        
-        // add the actions
-        alert.addAction(cancelAction)
-        
-        let view: UIView = UIApplication.shared.windows.first!.rootViewController!.view
-        // present popover for iPads
-        alert.popoverPresentationController?.sourceView = view // prevents crashing on iPads
-        alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.maxY, width: 0, height: 0) // show up at center bottom on iPads
-        
-        // present the alert
-        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true)
     }
 }

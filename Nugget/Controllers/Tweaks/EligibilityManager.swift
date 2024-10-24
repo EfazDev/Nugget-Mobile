@@ -107,22 +107,10 @@ class EligibilityManager: ObservableObject {
             }
         }
     }
-
-    func getDefaultDeviceSubtype() throws -> Int {
-        let gestaltData = try Data(contentsOf: URL(fileURLWithPath: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.mobilegestaltcache/Library/Caches/com.apple.MobileGestalt.plist"))
-        let plist = try PropertyListSerialization.propertyList(from: gestaltData, options: [], format: nil) as! [String: Any]
-        return getPlistValue(plist, key: "ArtworkDeviceSubType") as? Int ?? -1
-    }
-
-    func getDefaultDeviceModel() throws -> String? {
-        let gestaltData = try Data(contentsOf: URL(fileURLWithPath: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.mobilegestaltcache/Library/Caches/com.apple.MobileGestalt.plist"))
-        let plist = try PropertyListSerialization.propertyList(from: gestaltData, options: [], format: nil) as! [String: Any]
-        return getPlistValue(plist, key: "h9jDsbgj7xIVeIQ8S3/X3Q") as? String
-    }
     
-    func setDeviceModelCode(_ enabled: Bool?, _ new_model: String?) {
+    func setDeviceModelCode(_ enabled: Any, _ new_model: Any) {
         if !(enabled == -1) {
-            spoofingDevice = enabled
+            spoofingDevice = enabled;
         }
         if spoofingDevice {
             if !(new_model == -1) {
