@@ -114,16 +114,15 @@ struct EligibilityView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 24, height: 24)
                                     .foregroundColor(.blue)
-                                
+                            
                                 Text("Spoofing Device").minimumScaleFactor(0.5)
-                                Text("* (C = Cellular, W = WiFi)").minimumScaleFactor(0.5)
-                                
                                 Spacer()
                                 
-                                // Replace Button with a Picker for selecting device subtype
                                 Picker(selection: $CurrentSubType, label: Text(CurrentSubTypeDisplay).foregroundColor(.blue)) {
                                     ForEach(spoofDeviceStack) { device in
-                                        Text(device.title).tag(device.key)
+                                        Text(device.title)
+                                            .tag(device.key)
+                                            .hidden()
                                     }
                                 }
                                 .onChange(of: CurrentSubType) { nv in
@@ -137,6 +136,8 @@ struct EligibilityView: View {
                     }
                 } header: {
                     Text("AI Enabler")
+                } footer: {
+                    Text("* (C = Cellular, W = WiFi)").minimumScaleFactor(0.5)
                 }
             }
         }
