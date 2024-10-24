@@ -92,14 +92,14 @@ class EligibilityManager: ObservableObject {
     
     func setDeviceModelCode(_ enabled: Any, _ new_model: Any) {
         if let enabledBool = enabled as? Bool, enabledBool {
-            spoofingDevice = enabledBool;
+            spoofingDevice = enabledBool
         } else {
-            spoofingDevice = false;
+            spoofingDevice = false
         }
         if spoofingDevice {
             if let newModelInt = new_model as? String, newModelInt != "-1" {
                 MobileGestaltManager.shared.setGestaltValue(key: "h9jDsbgj7xIVeIQ8S3/X3Q", value: new_model)
-            } else {
+            } else if let model = MobileGestaltManager.shared.deviceModel {
                 MobileGestaltManager.shared.setGestaltValue(key: "h9jDsbgj7xIVeIQ8S3/X3Q", value: model)
             }
         } else {
@@ -110,6 +110,7 @@ class EligibilityManager: ObservableObject {
             }
         }
     }
+
     
     func apply() throws -> [String: Data] {
         var changes: [String: Data] = [:]

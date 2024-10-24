@@ -124,9 +124,9 @@ struct EligibilityView: View {
                                         }
                                     }
                                     .onChange(of: CurrentSubType) { newValue in
-                                        if let selectedDevice = spoofDeviceStack.first(where: { $0.key == newValue }) {
+                                        if let selectedDevice = spoofDeviceStack.first(where: { $0.key == String(newValue) }) {
                                             CurrentSubTypeDisplay = selectedDevice.title
-                                            manager.setDeviceModelCode("-1", newValue)
+                                            manager.setDeviceModelCode("-1", String(newValue))
                                         }
                                     }
                                 }
