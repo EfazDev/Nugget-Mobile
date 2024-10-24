@@ -13,7 +13,7 @@ struct EligibilityView: View {
     @State var aiEnabler: Bool = false
     @State var changeDeviceModel: Bool = false
     @State private var CurrentSubTypeDisplay: String = "Default"
-    @State private var CurrentSubType: Int = -1
+    @State private var CurrentSubType: String = "-1"
 
     struct DeviceSubType: Identifiable {
         var id = UUID()
@@ -103,36 +103,36 @@ struct EligibilityView: View {
                                     Image(systemName: "info.circle")
                                 }
                             }
-                            Section {
-                                // device subtype
-                                HStack {                                    
-                                    Image(systemName: "ipodtouch")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 24, height: 24)
-                                        .foregroundColor(.blue)
-                                    
-                                    Text("Spoofing Device").minimumScaleFactor(0.5)
-                                    Text("* C = Cellular, W = Wifi, M = mmWave").minimumScaleFactor(0.5)
-                                    
-                                    Spacer()
-                                    
-                                    // Replace Button with a Picker for selecting device subtype
-                                    Picker(selection: $CurrentSubType, label: Text(CurrentSubTypeDisplay).foregroundColor(.blue)) {
-                                        ForEach(spoofDeviceStack) { device in
-                                            Text(device.title).tag(device.key)
-                                        }
+                        }.onChange(of: changeDeviceModel) { nv in
+                            manager.setDeviceModelCode(nv, "-1")
+                        }
+                        Section {
+                            // device subtype
+                            HStack {                                    
+                                Image(systemName: "ipodtouch")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 24, height: 24)
+                                    .foregroundColor(.blue)
+                                
+                                Text("Spoofing Device").minimumScaleFactor(0.5)
+                                Text("* (C = Cellular, W = WiFi)").minimumScaleFactor(0.5)
+                                
+                                Spacer()
+                                
+                                // Replace Button with a Picker for selecting device subtype
+                                Picker(selection: $CurrentSubType, label: Text(CurrentSubTypeDisplay).foregroundColor(.blue)) {
+                                    ForEach(spoofDeviceStack) { device in
+                                        Text(device.title).tag(device.key)
                                     }
-                                    .onChange(of: CurrentSubType) { newValue in
-                                        if let selectedDevice = spoofDeviceStack.first(where: { $0.key == String(newValue) }) {
-                                            CurrentSubTypeDisplay = selectedDevice.title
-                                            manager.setDeviceModelCode("-1", String(newValue))
-                                        }
+                                }
+                                .onChange(of: CurrentSubType) { nv in
+                                    if let selectedDevice = spoofDeviceStack.first(where: { $0.key == String(nv) }) {
+                                        CurrentSubTypeDisplay = selectedDevice.title
+                                        manager.setDeviceModelCode("-1", String(nv))
                                     }
                                 }
                             }
-                        }.onChange(of: changeDeviceModel) { nv in
-                            manager.setDeviceModelCode(nv, "-1")
                         }
                     }
                 } header: {

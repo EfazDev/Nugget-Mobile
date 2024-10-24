@@ -147,7 +147,7 @@ struct HomeView: View {
                     LinkCell(imageName: "f1shy-dev", url: "https://gist.github.com/f1shy-dev/23b4a78dc283edd30ae2b2e6429129b5#file-eligibility-plist", title: "f1shy-dev", contribution: "AI Enabler", circle: true)
                     LinkCell(imageName: "app.gift", url: "https://sidestore.io/", title: "SideStore", contribution: "em_proxy and minimuxer", systemImage: true, circle: true)
                     LinkCell(imageName: "cable.connector", url: "https://libimobiledevice.org", title: "libimobiledevice", contribution: "Restore Library", systemImage: true, circle: true)
-                     LinkCell(imageName: "EfazDev", url: "https://www.efaz.dev", title: "EfazDev", contribution: NSLocalizedString("Some edits lol", comment: "Some edits lol"), circle: true)
+                    LinkCell(imageName: "efazdev", url: "https://www.efaz.dev", title: "EfazDev", contribution: NSLocalizedString("Some edits lol", comment: "Some edits lol"), circle: true)
                 } header: {
                     Label("Credits", systemImage: "wrench.and.screwdriver")
                 }
