@@ -28,18 +28,7 @@ You should only have to do this once unless you lose the file and delete the app
 4. Enable it and run Nugget
 
 ## Solving Minimuxer Issues
-If you have used Cowabunga Lite before, you may experience issues with minimuxer. This is due to how it skipped the setup process.
-These steps should solve the problem, however it is not an end-all be-all solution.
-1. Download [Nugget Python](https://github.com/leminlimez/Nugget) and follow the steps in the readme to install python and the requirements
-2. Connect your device and (in terminal) type `python3 fix-minimuxer.py` (or `python fix-minimuxer.py` if it doesn't work)
-
-Your device should reboot. After it reboots, try Nugget mobile now. If it still doesn't work, follow the steps below:
-
-3. After your device reboots, go to `[Settings] -> General -> Transfer or Reset iPhone`
-4. Tap `Reset` and then `Reset Location & Privacy`
-5. Nugget mobile should work now. If it doesn't, try getting a new pairing file.
-
-If the steps above don't work for you, try using `Cowabunga Lite` and clicking the `Deep Clean` button, then try the steps again.
+Try reading a new mobiledevicepairing file. If that doesn't work, try using `Cowabunga Lite` and clicking the `Deep Clean` button, then try the steps again.
 If not even that works, the only solution I know is to wipe the device (not ideal). I would recommend using [Nugget Python](https://github.com/leminlimez/Nugget) instead in this case.
 
 ## Credits
