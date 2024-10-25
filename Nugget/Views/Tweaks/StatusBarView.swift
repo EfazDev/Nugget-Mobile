@@ -97,7 +97,7 @@ struct StatusBarView: View {
             Section {
                 
             } footer: {
-                Text("Betas, use with caution. Have a backup.")
+                Text("Imported from Cowabunga Lite. However, it may have issues so have a backup just in case.")
             }
             Section {
                 Picker(selection: $radioPrimarySelection, label: Text("Visibility")) {

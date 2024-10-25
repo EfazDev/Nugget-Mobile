@@ -12,6 +12,7 @@ class EligibilityManager: ObservableObject {
     static let shared = EligibilityManager()
     
     @Published var spoofingDevice: Bool = false
+    @Published var selectedModel: String = "-1"
     
     /* Eligibility Tweaks */
     @Published var euEnabler: Bool = false
@@ -34,7 +35,7 @@ class EligibilityManager: ObservableObject {
         if let url = Bundle.main.url(forResource: name, withExtension: "plist"), let data = try? Data(contentsOf: url) {
             if var plist = String(data: data, encoding: .utf8) {
                 // apply the region code
-                if let regionCode = Locale.current.regionCode {
+                if let regionCode = Locale.current.region?.identifier {
                     print("Applying for region code: \(regionCode)")
                     plist = plist.replacingOccurrences(of: "US", with: regionCode)
                 }
@@ -97,6 +98,9 @@ class EligibilityManager: ObservableObject {
             spoofingDevice = false
         }
         if spoofingDevice {
+            if let mod = new_model as? String {
+                selectedModel = mod
+            }
             if let newModelInt = new_model as? String, newModelInt != "-1" {
                 MobileGestaltManager.shared.setGestaltValue(key: "h9jDsbgj7xIVeIQ8S3/X3Q", value: new_model)
             } else if let model = MobileGestaltManager.shared.deviceModel {

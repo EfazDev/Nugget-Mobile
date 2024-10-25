@@ -25,7 +25,7 @@ struct EligibilityView: View {
     @State private var spoofDeviceStack: [DeviceSubType] = {
         if UIDevice.current.userInterfaceIdiom == .pad {
             return [
-                .init(key: "-1", title: NSLocalizedString("Default", comment: "default device subtype")),
+                .init(key: "-1", title: NSLocalizedString("Original (Default)", comment: "default device subtype")),
                 .init(key: "iPad16,1", title: NSLocalizedString("iPad Mini (A17 Pro) (W)", comment: "")),
                 .init(key: "iPad16,2", title: NSLocalizedString("iPad Mini (A17 Pro) (C)", comment: "")),
             
@@ -52,7 +52,7 @@ struct EligibilityView: View {
             ]
         } else {
             return [
-                .init(key: "-1", title: NSLocalizedString("Default", comment: "default device subtype")),
+                .init(key: "-1", title: NSLocalizedString("Original (Default)", comment: "default device subtype")),
                 .init(key: "iPhone16,1", title: NSLocalizedString("iPhone 15 Pro", comment: "")),
                 .init(key: "iPhone16,2", title: NSLocalizedString("iPhone 15 Pro Max", comment: "")),
                 .init(key: "iPhone17,3", title: NSLocalizedString("iPhone 16", comment: "")),
@@ -104,31 +104,32 @@ struct EligibilityView: View {
                                 }
                             }
                         }.onChange(of: changeDeviceModel) { nv in
-                            manager.setDeviceModelCode(nv, "-1")
+                            manager.setDeviceModelCode(nv, CurrentSubType)
                         }
-                        Section {
-                            // device subtype
-                            HStack {                                    
-                                Image(systemName: "ipodtouch")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 24, height: 24)
-                                    .foregroundColor(.blue)
-                            
-                                Text("Spoofing Device").minimumScaleFactor(0.5)
-                                Spacer()
-                                
-                                Picker(selection: $CurrentSubType, label: Text(CurrentSubTypeDisplay).foregroundColor(.blue)) {
-                                    ForEach(spoofDeviceStack) { device in
-                                        Text(device.title)
-                                            .tag(device.key)
-                                            .hidden()
+                        if changeDeviceModel {
+                            Section {
+                                // device subtype
+                                HStack {
+                                    Image(systemName: "ipodtouch")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 24, height: 24)
+                                        .foregroundColor(.blue)
+                                    
+                                    Text("Spoofing Model").minimumScaleFactor(0.5)
+                                    Spacer()
+                                    
+                                    let picker_label = Text("").hidden()
+                                    Picker(selection: $CurrentSubType, label: picker_label) {
+                                        ForEach(spoofDeviceStack) { device in
+                                            Text(device.title).tag(device.key)
+                                        }
                                     }
-                                }
-                                .onChange(of: CurrentSubType) { nv in
-                                    if let selectedDevice = spoofDeviceStack.first(where: { $0.key == String(nv) }) {
-                                        CurrentSubTypeDisplay = selectedDevice.title
-                                        manager.setDeviceModelCode("-1", String(nv))
+                                    .onChange(of: CurrentSubType) { nv in
+                                        if let selectedDevice = spoofDeviceStack.first(where: { $0.key == String(nv) }) {
+                                            CurrentSubTypeDisplay = selectedDevice.title
+                                            manager.setDeviceModelCode(changeDeviceModel, String(nv))
+                                        }
                                     }
                                 }
                             }
@@ -137,7 +138,9 @@ struct EligibilityView: View {
                 } header: {
                     Text("AI Enabler")
                 } footer: {
-                    Text("* (C = Cellular, W = WiFi)").minimumScaleFactor(0.5)
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        Text("* (C = Cellular, W = Wi-Fi)").minimumScaleFactor(0.5)
+                    }
                 }
             }
         }
@@ -147,6 +150,12 @@ struct EligibilityView: View {
             euEnabler = manager.euEnabler
             aiEnabler = manager.aiEnabler
             changeDeviceModel = manager.spoofingDevice
+            CurrentSubType = manager.selectedModel
+            for dev in spoofDeviceStack.reversed() {
+                if dev.key == CurrentSubType {
+                    CurrentSubTypeDisplay = dev.title
+                }
+            }
         }
     }
     

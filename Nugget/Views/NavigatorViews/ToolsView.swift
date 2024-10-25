@@ -34,7 +34,8 @@ struct ToolsView: View {
             .init(page: .Internal, view: AnyView(InternalOptionsView()), title: NSLocalizedString("Internal Options", comment: "Title of tool"), imageName: "internaldrive")
         ]),
         .init(title: "Domain Restore Tweaks (requires Skip Setup)", pages: [
-            .init(page: .StatusBar, view: AnyView(StatusBarView()), title: NSLocalizedString("Status Bar", comment: "Title of tool"), imageName: "wifi")
+            .init(page: .StatusBar, view: AnyView(StatusBarView()), title: NSLocalizedString("Status Bar", comment: "Title of tool"), imageName: "wifi"),
+            .init(page: .Supervision, view: AnyView(SupervisionView()), title: NSLocalizedString("Supervision", comment: "Title of tool"), imageName: "person.circle")
         ])
         
     ]

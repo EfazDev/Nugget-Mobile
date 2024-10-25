@@ -14,6 +14,7 @@ enum TweakPage: String, CaseIterable {
     case StatusBar = "Status Bar"
     case SpringBoard = "SpringBoard"
     case Internal = "Internal Options"
+    case Supervision = "Supervision"
     case SkipSetup = "Skip Setup"
 }
 
@@ -87,6 +88,10 @@ class ApplyHandler: ObservableObject {
             for file_path in basicPlistTweaksData.keys {
                 files.append(FileToRestore(contents: basicPlistTweaksData[file_path]!, path: file_path.rawValue))
             }
+        case .Supervision:
+            // Apply status bar
+            let statusBarData: Data = resetting ? try statusManager.reset() : try statusManager.apply()
+            files.append(FileToRestore(contents: statusBarData, path: "HomeDomain/Library/SpringBoard/statusBarOverrides", usesInodes: false))
         case .SkipSetup:
             // Apply the skip setup file
             var cloudConfigData: Data = Data()

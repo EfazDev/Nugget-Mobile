@@ -49,6 +49,22 @@ struct HomeView: View {
                             }
                             .buttonStyle(TintedButton(material: .systemMaterial, fullwidth: false))
                         }
+                        // apply without void button
+                        HStack {
+                            Button("Apply Tweaks without Minimuxer Check") {
+                                applyChangesNoCheck(reverting: false)
+                            }
+                            .buttonStyle(TintedButton(color: .yellow, fullwidth: true))
+                            .sheet(isPresented: $showRevertPage, content: {
+                                RevertTweaksPopoverView(revertFunction: applyChanges(reverting:))
+                            })
+                            Button {
+                                UIApplication.shared.alert(title: NSLocalizedString("Info", comment: "info header"), body: NSLocalizedString("Applies all selected tweaks but doesn't check if minimuxer is availabkle at start.", comment: ""))
+                            } label: {
+                                Image(systemName: "info")
+                            }
+                            .buttonStyle(TintedButton(material: .systemMaterial, fullwidth: false))
+                        }
                         // remove all tweaks button
                         HStack {
                             Button("Remove All Tweaks") {
@@ -140,7 +156,7 @@ struct HomeView: View {
                 // MARK: App Credits
                 Section {
                     // app credits
-                    LinkCell(imageName: "leminlimez", url: "https://x.com/leminlimez", title: "leminlimez", contribution: NSLocalizedString("Main Developer", comment: "leminlimez's contribution"), circle: true)
+                    LinkCell(imageName: "LeminLimez", url: "https://x.com/leminlimez", title: "leminlimez", contribution: NSLocalizedString("Main Developer", comment: "leminlimez's contribution"), circle: true)
                     LinkCell(imageName: "khanhduytran", url: "https://github.com/khanhduytran0/SparseBox", title: "khanhduytran0", contribution: "SparseBox", circle: true)
                     LinkCell(imageName: "jjtech", url: "https://github.com/JJTech0130/TrollRestore", title: "JJTech0130", contribution: "Sparserestore", circle: true)
                     LinkCell(imageName: "disfordottie", url: "https://x.com/disfordottie", title: "disfordottie", contribution: "Some Global Flag Features", circle: true)
@@ -197,6 +213,28 @@ struct HomeView: View {
     }
     
     func applyChanges(reverting: Bool) {
+            if ApplyHandler.shared.trollstore || ready() {
+                if !reverting && ApplyHandler.shared.allEnabledTweaks().isEmpty {
+                    // if there are no enabled tweaks then tell the user
+                    UIApplication.shared.alert(body: "You do not have any tweaks enabled! Go to the tools page to select some.")
+                } else if ApplyHandler.shared.isExploitOnly() {
+                    path.append(reverting ? "RevertChanges" : "ApplyChanges")
+                } else if !ApplyHandler.shared.trollstore {
+                    // if applying non-exploit files, warn about setup
+                    UIApplication.shared.confirmAlert(title: "Warning!", body: "You are applying non-exploit related files. This will make the setup screen appear. Click Cancel if you do not wish to proceed.\n\nWhen setting up, you MUST click \"Do not transfer apps & data\".\n\nIf you see a screen that says \"iPhone Partially Set Up\", DO NOT tap the big blue button. You must click \"Continue with Partial Setup\".", onOK: {
+                        path.append(reverting ? "RevertChanges" : "ApplyChanges")
+                    }, noCancel: false)
+                }
+            } else if pairingFile == nil {
+                lastError = "Please select your pairing file to continue."
+                showErrorAlert.toggle()
+            } else {
+                lastError = "minimuxer is not ready. Ensure you have WiFi and WireGuard VPN set up."
+                showErrorAlert.toggle()
+            }
+        }
+    
+    func applyChangesNoCheck(reverting: Bool) {
         if ApplyHandler.shared.trollstore || ready() {
             if !reverting && ApplyHandler.shared.allEnabledTweaks().isEmpty {
                 // if there are no enabled tweaks then tell the user
@@ -217,12 +255,12 @@ struct HomeView: View {
                 // if there are no enabled tweaks then tell the user
                 UIApplication.shared.alert(body: "You do not have any tweaks enabled! Go to the tools page to select some.")
             } else if ApplyHandler.shared.isExploitOnly() {
-                UIApplication.shared.confirmAlert(title: "WARNING!", body: "You're applying files without minimuxer ready! This may cause issues!!", onOK: {
+                UIApplication.shared.confirmAlert(title: "WARNING!", body: "You're applying files without minimuxer ready! This may cause issues!! Please also make sure Wireguard and Wi-Fi is available!", onOK: {
                     path.append(reverting ? "RevertChanges" : "ApplyChanges")
                 }, noCancel: false)
             } else if !ApplyHandler.shared.trollstore {
                 // if applying non-exploit files, warn about setup
-                UIApplication.shared.confirmAlert(title: "WARNING!", body: "You are applying non-exploit related files with minimuxer not ready! This may cause issues!! This also will make the setup screen appear. Click Cancel if you do not wish to proceed.\n\nWhen setting up, you MUST click \"Do not transfer apps & data\".\n\nIf you see a screen that says \"iPhone Partially Set Up\", DO NOT tap the big blue button. You must click \"Continue with Partial Setup\".", onOK: {
+                UIApplication.shared.confirmAlert(title: "WARNING!", body: "You are applying non-exploit related files with minimuxer not ready! This may cause issues!! Please also make sure Wireguard and Wi-Fi is available! This also will make the setup screen appear. Click Cancel if you do not wish to proceed.\n\nWhen setting up, you MUST click \"Do not transfer apps & data\".\n\nIf you see a screen that says \"iPhone Partially Set Up\", DO NOT tap the big blue button. You must click \"Continue with Partial Setup\".", onOK: {
                     path.append(reverting ? "RevertChanges" : "ApplyChanges")
                 }, noCancel: false)
             }
