@@ -25,10 +25,11 @@ class ApplyHandler: ObservableObject {
     let ffManager = FeatureFlagManager.shared
     let eligibilityManager = EligibilityManager.shared
     let statusManager = StatusManagerSwift.shared
+    let supervisionManager = SupervisionManager.shared
     
     @Published var enabledTweaks: Set<TweakPage> = []
     @Published var removingTweaks: Set<TweakPage> = [
-        .MobileGestalt, .FeatureFlags, .SpringBoard, .Internal
+        .MobileGestalt, .FeatureFlags, .SpringBoard, .Internal, .Supervision
     ]
     
     @Published var trollstore: Bool = false
@@ -89,9 +90,10 @@ class ApplyHandler: ObservableObject {
                 files.append(FileToRestore(contents: basicPlistTweaksData[file_path]!, path: file_path.rawValue))
             }
         case .Supervision:
-            // Apply status bar
-            let statusBarData: Data = resetting ? try statusManager.reset() : try statusManager.apply()
-            files.append(FileToRestore(contents: statusBarData, path: "HomeDomain/Library/SpringBoard/statusBarOverrides", usesInodes: false))
+            // Apply supervision
+            if let supervisionData: Data = resetting ? supervisionManager.reset() : try supervisionManager.apply() {
+                files.append(FileToRestore(contents: supervisionData, path: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/CloudConfigurationDetails.plist"))
+            }
         case .SkipSetup:
             // Apply the skip setup file
             var cloudConfigData: Data = Data()

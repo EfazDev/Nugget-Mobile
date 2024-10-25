@@ -23,19 +23,9 @@ class SupervisionManager: ObservableObject {
         }
     }
 
-    func apply() throws -> [String: Data] {
-        var changes: [String: Data] = [:]
-        let cloudPath = "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/CloudConfigurationDetails.plist"
-        
-        guard let url = Bundle.main.url(forResource: cloudPath, withExtension: "plist"),
-            let data = try? Data(contentsOf: url) else {
-            return changes
-        }
-        
-        guard var plist = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any] else {
-            return changes
-        }
-        
+    func apply() throws -> Data? {
+        let cloudData = try Data(contentsOf: URL(fileURLWithPath: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/CloudConfigurationDetails.plist"))
+        var plist = try PropertyListSerialization.propertyList(from: cloudData, options: [], format: nil) as! [String: Any]
         if supervisionEnabler {
             plist["IsSupervised"] = (supervisionEnabler == true)
             plist["OrganizationName"] = supervisionName
@@ -43,15 +33,12 @@ class SupervisionManager: ObservableObject {
             plist["IsSupervised"] = false
         }
         
-        guard let modifiedData = try? PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0) else {
-            return changes
-        }
-        
-        changes[cloudPath] = modifiedData
-        return changes
+        return try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
     }
     
-    func revert() throws -> [String: Data] {
-        return [:]
+    func reset() -> Data {
+        let cloudURL = URL.tweaksDirectory.appendingPathComponent("/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/CloudConfigurationDetails.plist")
+        try? FileManager.default.removeItem(at: cloudURL)
+        return Data()
     }
 }

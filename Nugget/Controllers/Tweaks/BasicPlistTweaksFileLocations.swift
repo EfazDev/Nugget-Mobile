@@ -14,6 +14,7 @@ enum FileLocation: String {
     // Springboard Options
     case springboard = "/var/Managed Preferences/mobile/com.apple.springboard.plist"
     case footnote = "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"
+    case supervision = "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/CloudConfigurationDetails.plist"
     case uikit = "/var/Managed Preferences/mobile/com.apple.UIKit.plist"
     case wifiDebug = "/var/Managed Preferences/mobile/com.apple.MobileWiFi.debug.plist"
     case airdrop = "/var/Managed Preferences/mobile/com.apple.sharingd.plist"

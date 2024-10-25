@@ -59,7 +59,7 @@ struct HomeView: View {
                                 RevertTweaksPopoverView(revertFunction: applyChanges(reverting:))
                             })
                             Button {
-                                UIApplication.shared.alert(title: NSLocalizedString("Info", comment: "info header"), body: NSLocalizedString("Applies all selected tweaks but doesn't check if minimuxer is availabkle at start.", comment: ""))
+                                UIApplication.shared.alert(title: NSLocalizedString("Info", comment: "info header"), body: NSLocalizedString("Applies all selected tweaks but doesn't check if minimuxer is available at start.", comment: ""))
                             } label: {
                                 Image(systemName: "info")
                             }
@@ -260,7 +260,7 @@ struct HomeView: View {
                 }, noCancel: false)
             } else if !ApplyHandler.shared.trollstore {
                 // if applying non-exploit files, warn about setup
-                UIApplication.shared.confirmAlert(title: "WARNING!", body: "You are applying non-exploit related files with minimuxer not ready! This may cause issues!! Please also make sure Wireguard and Wi-Fi is available! This also will make the setup screen appear. Click Cancel if you do not wish to proceed.\n\nWhen setting up, you MUST click \"Do not transfer apps & data\".\n\nIf you see a screen that says \"iPhone Partially Set Up\", DO NOT tap the big blue button. You must click \"Continue with Partial Setup\".", onOK: {
+                UIApplication.shared.confirmAlert(title: "WARNING!", body: "You are applying non-exploit related files with minimuxer not ready! This will cause issues!! Please also make sure Wireguard and Wi-Fi is available! This also will make the setup screen appear. Click Cancel if you do not wish to proceed.\n\nWhen setting up, you MUST click \"Do not transfer apps & data\".\n\nIf you see a screen that says \"iPhone Partially Set Up\", DO NOT tap the big blue button. You must click \"Continue with Partial Setup\".", onOK: {
                     path.append(reverting ? "RevertChanges" : "ApplyChanges")
                 }, noCancel: false)
             }
