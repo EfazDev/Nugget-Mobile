@@ -26,7 +26,7 @@ class ApplyHandler: ObservableObject {
     let eligibilityManager = EligibilityManager.shared
     let statusManager = StatusManagerSwift.shared
     let supervisionManager = SupervisionManager.shared
-    var storedSupervisionData : Data? = nil
+    var addedSupervisionData: Bool = false
     
     @Published var enabledTweaks: Set<TweakPage> = []
     @Published var removingTweaks: Set<TweakPage> = [
@@ -104,7 +104,10 @@ class ApplyHandler: ObservableObject {
                 print("Applied supervision! Name: \(String(describing: cloudConfigPlist["OrganizationName"]))")
             }
             cloudConfigData = try PropertyListSerialization.data(fromPropertyList: cloudConfigPlist, format: .xml, options: 0)
-            files.append(FileToRestore(contents: cloudConfigData, path: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"))
+            if (addedSupervisionData == false) {
+                addedSupervisionData = true
+                files.append(FileToRestore(contents: cloudConfigData, path: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"))
+            }
         case .SkipSetup:
             // Apply the skip setup file
             var cloudConfigData: Data = Data()
@@ -131,7 +134,10 @@ class ApplyHandler: ObservableObject {
                 purpleBuddyData = try PropertyListSerialization.data(fromPropertyList: purpleBuddyPlist, format: .xml, options: 0)
             }
             if resetting || !self.isExploitOnly() {
-                files.append(FileToRestore(contents: cloudConfigData, path: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"))
+                if (addedSupervisionData == false) {
+                    addedSupervisionData = true
+                    files.append(FileToRestore(contents: cloudConfigData, path: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"))
+                }
                 if !self.isExploitOnly() {
                     files.append(FileToRestore(contents: purpleBuddyData, path: "ManagedPreferencesDomain/mobile/com.apple.purplebuddy.plist"))
                 }
