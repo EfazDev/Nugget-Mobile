@@ -14,7 +14,7 @@ class SupervisionManager: NSObject, ObservableObject {
     @Published var supervisionName: String = ""
     
     func apply() throws -> Data {
-        if let filePath = Bundle.main.path(forResource: "CloudConfigurationDetails", ofType: "plist", inDirectory: "Controllers/Tweaks/Supervision") {
+        if let filePath = Bundle.main.path(forResource: "CloudConfigurationDetails", ofType: "plist") {
             let overridesURL = URL(fileURLWithPath: filePath)
             guard let plist = NSMutableDictionary(contentsOf: overridesURL) else {
                 print("Something went wrong reading CloudConfigurationDetails.plist. Returning empty data.")
@@ -22,8 +22,7 @@ class SupervisionManager: NSObject, ObservableObject {
             }
             plist["IsSupervised"] = supervisionEnabler
             plist["OrganizationName"] = supervisionEnabler ? supervisionName : ""
-            let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
-            try data.write(to: overridesURL)
+            let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .binary, options: 0)
             print("Successfully written data for \(overridesURL)")
             return data
         } else {
@@ -33,7 +32,19 @@ class SupervisionManager: NSObject, ObservableObject {
     }
     
     func reset() throws -> Data {
-        return Data()
+        if let filePath = Bundle.main.path(forResource: "CloudConfigurationDetails", ofType: "plist") {
+            let overridesURL = URL(fileURLWithPath: filePath)
+            guard let plist = NSMutableDictionary(contentsOf: overridesURL) else {
+                print("Something went wrong reading CloudConfigurationDetails.plist. Returning empty data.")
+                return Data()
+            }
+            let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .binary, options: 0)
+            print("Successfully written data for \(overridesURL)")
+            return data
+        } else {
+            print("Something went wrong finding CloudConfigurationDetails.plist. Returning empty data.")
+            return Data()
+        }
     }
     
     func toggleSupervision(_ enabled: Bool) {

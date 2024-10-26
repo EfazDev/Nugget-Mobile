@@ -116,17 +116,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		281CD9842CCC7C54005116C7 /* Supervision */ = {
-			isa = PBXGroup;
-			children = (
-				281CD9872CCC7C6D005116C7 /* CloudConfigurationDetails.plist */,
-			);
-			path = Supervision;
-			sourceTree = "<group>";
-		};
 		6F2A99762C9E0C1000C8A862 /* Files */ = {
 			isa = PBXGroup;
 			children = (
+				281CD9872CCC7C6D005116C7 /* CloudConfigurationDetails.plist */,
 				6F2A99772C9E0C1E00C8A862 /* eligibility.plist */,
 				6F2A99792C9E18DE00C8A862 /* Config.plist */,
 			);
@@ -247,7 +240,6 @@
 		6F8593782C8F4C5D00F790D1 /* Tweaks */ = {
 			isa = PBXGroup;
 			children = (
-				281CD9842CCC7C54005116C7 /* Supervision */,
 				281CD9802CCB2011005116C7 /* SupervisionManager.swift */,
 				6F8594A42C8FAC8B00F790D1 /* StatusManager */,
 				6F8594BD2C94B9AA00F790D1 /* BasicPlistTweaksManager.swift */,
