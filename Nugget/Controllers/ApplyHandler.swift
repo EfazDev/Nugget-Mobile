@@ -106,7 +106,7 @@ class ApplyHandler: ObservableObject {
             cloudConfigData = try PropertyListSerialization.data(fromPropertyList: cloudConfigPlist, format: .xml, options: 0)
             if (addedSupervisionData == false) {
                 addedSupervisionData = true
-                files.append(FileToRestore(contents: cloudConfigData, path: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"))
+                files.append(FileToRestore(contents: cloudConfigData, path: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/CloudConfigurationDetails.plist"))
             }
         case .SkipSetup:
             // Apply the skip setup file
@@ -119,10 +119,9 @@ class ApplyHandler: ObservableObject {
                     "IsSupervised": false
                 ]
                 if self.enabledTweaks.contains(.Supervision) {
-                    if (supervisionManager.supervisionEnabler) {
-                        cloudConfigPlist["IsSupervised"] = supervisionManager.supervisionEnabler
-                        cloudConfigPlist["OrganizationName"] = supervisionManager.supervisionEnabler ? supervisionManager.supervisionName : ""
-                    }
+                    cloudConfigPlist["IsSupervised"] = supervisionManager.supervisionEnabler
+                    cloudConfigPlist["OrganizationName"] = supervisionManager.supervisionEnabler ? supervisionManager.supervisionName : ""
+                    print("Applied supervision! Name: \(String(describing: cloudConfigPlist["OrganizationName"]))")
                 }
                 
                 cloudConfigData = try PropertyListSerialization.data(fromPropertyList: cloudConfigPlist, format: .xml, options: 0)
@@ -136,7 +135,7 @@ class ApplyHandler: ObservableObject {
             if resetting || !self.isExploitOnly() {
                 if (addedSupervisionData == false) {
                     addedSupervisionData = true
-                    files.append(FileToRestore(contents: cloudConfigData, path: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"))
+                    files.append(FileToRestore(contents: cloudConfigData, path: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/CloudConfigurationDetails.plist"))
                 }
                 if !self.isExploitOnly() {
                     files.append(FileToRestore(contents: purpleBuddyData, path: "ManagedPreferencesDomain/mobile/com.apple.purplebuddy.plist"))
