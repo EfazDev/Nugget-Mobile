@@ -92,7 +92,6 @@ class ApplyHandler: ObservableObject {
             }
         case .Supervision:
             // Apply supervision
-            var cloudConfigData: Data = Data()
             var cloudConfigPlist: [String: Any] = [
                 "SkipSetup": ["WiFi", "Location", "Restore", "SIMSetup", "Android", "AppleID", "IntendedUser", "TOS", "Siri", "ScreenTime", "Diagnostics", "SoftwareUpdate", "Passcode", "Biometric", "Payment", "Zoom", "DisplayTone", "MessagingActivationUsingPhoneNumber", "HomeButtonSensitivity", "CloudStorage", "ScreenSaver", "TapToSetup", "Keyboard", "PreferredLanguage", "SpokenLanguage", "WatchMigration", "OnBoarding", "TVProviderSignIn", "TVHomeScreenSync", "Privacy", "TVRoom", "iMessageAndFaceTime", "AppStore", "Safety", "Multitasking", "ActionButton", "TermsOfAddress", "AccessibilityAppearance", "Welcome", "Appearance", "RestoreCompleted", "UpdateCompleted"],
                 "CloudConfigurationUIComplete": true,
@@ -100,10 +99,9 @@ class ApplyHandler: ObservableObject {
             ]
             if self.enabledTweaks.contains(.Supervision) {
                 cloudConfigPlist["IsSupervised"] = supervisionManager.supervisionEnabler
-                cloudConfigPlist["OrganizationName"] = supervisionManager.supervisionEnabler ? "" : supervisionManager.supervisionName
+                cloudConfigPlist["OrganizationName"] = supervisionManager.supervisionEnabler ? supervisionManager.supervisionName : ""
+                print("Applied supervision! Name: \(String(describing: cloudConfigPlist["OrganizationName"]))")
             }
-            
-            cloudConfigData = try PropertyListSerialization.data(fromPropertyList: cloudConfigPlist, format: .xml, options: 0)
         case .SkipSetup:
             // Apply the skip setup file
             var cloudConfigData: Data = Data()
@@ -117,7 +115,7 @@ class ApplyHandler: ObservableObject {
                 if self.enabledTweaks.contains(.Supervision) {
                     if (supervisionManager.supervisionEnabler) {
                         cloudConfigPlist["IsSupervised"] = supervisionManager.supervisionEnabler
-                        cloudConfigPlist["OrganizationName"] = supervisionManager.supervisionName
+                        cloudConfigPlist["OrganizationName"] = supervisionManager.supervisionEnabler ? supervisionManager.supervisionName : ""
                     }
                 }
                 

@@ -40,8 +40,7 @@ struct HomeView: View {
                 // MARK: Tweak Options
                 Section {
                     VStack {
-                        Label("Minimuxer Status: \(minimuxerStatus)", systemImage: "info")
-                                            .padding()
+                        Text("Minimuxer Status: \(minimuxerStatus)").padding()
                         
                         // apply all tweaks button
                         HStack {
@@ -120,6 +119,12 @@ struct HomeView: View {
                         }
                     }
                     .listRowInsets(EdgeInsets())
+                    .onAppear {
+                        startMinimuxerStatusCheck()
+                    }
+                    .onDisappear {
+                        stopMinimuxerStatusCheck()
+                    }
                     // auto reboot option
                     HStack {
                         Toggle(isOn: $autoReboot) {
