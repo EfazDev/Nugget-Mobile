@@ -92,7 +92,7 @@ class ApplyHandler: ObservableObject {
         case .Supervision:
             // Apply supervision
             let supervisionData: Data = resetting ? try supervisionManager.reset() : try supervisionManager.apply()
-            files.append(FileToRestore(contents: supervisionData, path: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/Library/ConfigurationProfiles/CloudConfigurationDetails.plist", usesInodes: false))
+            files.append(FileToRestore(contents: supervisionData, path: "SysSharedContainerDomain-./ConfigProfileDomain/Library/ConfigurationProfiles/Library/ConfigurationProfiles/CloudConfigurationDetails.plist", usesInodes: false))
         case .SkipSetup:
             // Apply the skip setup file
             var cloudConfigData: Data = Data()
@@ -112,7 +112,7 @@ class ApplyHandler: ObservableObject {
                 purpleBuddyData = try PropertyListSerialization.data(fromPropertyList: purpleBuddyPlist, format: .xml, options: 0)
             }
             if resetting || !self.isExploitOnly() {
-                files.append(FileToRestore(contents: cloudConfigData, path: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"))
+                files.append(FileToRestore(contents: cloudConfigData, path: "/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"))
                 if !self.isExploitOnly() {
                     files.append(FileToRestore(contents: purpleBuddyData, path: "ManagedPreferencesDomain/mobile/com.apple.purplebuddy.plist"))
                 }
@@ -133,7 +133,8 @@ class ApplyHandler: ObservableObject {
             "/var/mobile": "HomeDomain",
             "/var/db": "DatabaseDomain",
             "/var/containers/Shared/SystemGroup": "SysSharedContainerDomain-.",
-            "/var/containers/Data/SystemGroup": "SysContainerDomain-."
+            "/var/containers/Data/SystemGroup": "SysContainerDomain-.",
+            "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles": "ConfigProfileDomain"
         ]
         for (rootPath, domain) in mappings {
             if path.starts(with: rootPath) {
