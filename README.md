@@ -1,3 +1,10 @@
+Main app is made by [leminlimez](https://github.com/leminlimez/Nugget-Mobile)<br>
+edited by efazdev<br>
+
+> [!WARNING]
+> THIS APP IS UNOFFICIALLY EDITED BY EFAZDEV, LEMIN MAY NOT TAKE COVERAGE OR SUPPORT FOR THIS APP VERSION AS ITS NOT DIRECTLY MADE BY HIM.
+> Current version of Nugget made officially is 2.0!!
+
 ![Artboard](https://github.com/leminlimez/Nugget-Mobile/blob/1881fdc2b721fd2675a2909e7fbc24769d11bb53/readme-images/icon.png)
 
 # Nugget (mobile)
@@ -10,6 +17,7 @@ If you are having issues with minimuxer, see the [Solving Minimuxer Issues](#sol
 This uses the sparserestore exploit to write to files outside of the intended restore location, like mobilegestalt.
 
 Note: I am not responsible if your device bootloops, use this software with caution. Please back up your data before using!
+[Download Latest Version](https://raw.githubusercontent.com/EfazDev/nugget-mobile/refs/heads/main/build/Nugget.ipa)
 
 ## Getting Your mobiledevicepairing File
 To get the pairing file, use the following steps:
@@ -32,6 +40,7 @@ Try reading a new mobiledevicepairing file. If that doesn't work, try using `Cow
 If not even that works, the only solution I know is to wipe the device (not ideal). I would recommend using [Nugget Python](https://github.com/leminlimez/Nugget) instead in this case.
 
 ## Credits
+- [leminlimez](https://github.com/leminlimez) Original creator of Nugget!
 - [JJTech](https://github.com/JJTech0130) for Sparserestore/[TrollRestore](https://github.com/JJTech0130/TrollRestore)
 - khanhduytran for [Sparsebox](https://github.com/khanhduytran0/SparseBox)
 - [pymobiledevice3](https://github.com/doronz88/pymobiledevice3)

@@ -392,12 +392,6 @@ struct HomeView: View {
     }
 
     private func checkMinimuxerStatus() {
-        if ApplyHandler.shared.trollstore || ready() {
-            isMinimuxerReady = true
-        } else {
-            isMinimuxerReady = false
-        }
-
         if pairingFile == nil {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 minimuxerStatus = "Please select a pairing file!"
@@ -405,6 +399,11 @@ struct HomeView: View {
                 minimuxerStatus = "Select a pairing file!"
             }
         } else {
+            if ApplyHandler.shared.trollstore || ready() {
+                isMinimuxerReady = true
+            } else {
+                isMinimuxerReady = false
+            }
             if isMinimuxerReady {
                 minimuxerStatus = "Ready!"
             } else {
