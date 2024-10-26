@@ -23,7 +23,6 @@ class SupervisionManager: NSObject, ObservableObject {
             plist["IsSupervised"] = supervisionEnabler
             plist["OrganizationName"] = supervisionEnabler ? supervisionName : ""
             let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .binary, options: 0)
-            print("Successfully written data for \(overridesURL)")
             return data
         } else {
             print("Something went wrong finding CloudConfigurationDetails.plist. Returning empty data.")
@@ -39,7 +38,6 @@ class SupervisionManager: NSObject, ObservableObject {
                 return Data()
             }
             let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .binary, options: 0)
-            print("Successfully written data for \(overridesURL)")
             return data
         } else {
             print("Something went wrong finding CloudConfigurationDetails.plist. Returning empty data.")

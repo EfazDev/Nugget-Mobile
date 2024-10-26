@@ -92,7 +92,7 @@ class ApplyHandler: ObservableObject {
         case .Supervision:
             // Apply supervision
             let supervisionData: Data = resetting ? try supervisionManager.reset() : try supervisionManager.apply()
-            files.append(FileToRestore(contents: supervisionData, path: "ConfigProfileDomain/Library/ConfigurationProfiles/CloudConfigurationDetails.plist", usesInodes: false))
+            files.append(FileToRestore(contents: supervisionData, path: "/Library/ConfigurationProfiles/CloudConfigurationDetails.plist"))
         case .SkipSetup:
             // Apply the skip setup file
             var cloudConfigData: Data = Data()
@@ -133,8 +133,7 @@ class ApplyHandler: ObservableObject {
             "/var/mobile": "HomeDomain",
             "/var/db": "DatabaseDomain",
             "/var/containers/Shared/SystemGroup": "SysSharedContainerDomain-.",
-            "/var/containers/Data/SystemGroup": "SysContainerDomain-.",
-            "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles": "ConfigProfileDomain"
+            "/var/containers/Data/SystemGroup": "SysContainerDomain-."
         ]
         for (rootPath, domain) in mappings {
             if path.starts(with: rootPath) {
