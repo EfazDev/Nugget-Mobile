@@ -103,6 +103,16 @@ struct HomeView: View {
                                 .buttonStyle(TintedButton(color: .green, fullwidth: true))
                             }
                         }
+                        
+                        // fix minimuxer help
+                        HStack {
+                            Button("How to fix minimuxer?") {
+                                UIApplication.shared.helpAlert(title: NSLocalizedString("Info", comment: "info header"), body: NSLocalizedString("In order to fix minimuxer, check if you have Wireguard enabled. If you do, try restarting it and resetting your pairing file. If you want, click Help for instructions to get your mobilepairing file. Additionally, you may try to reset your privacy settings in case you rejected your computer. Find it in Settings -> General -> Transfer or Reset (iPhone/iPad) -> Reset -> Reset Location and Privacy", comment: "pairing file selector info"), link: "https://docs.sidestore.io/docs/getting-started/pairing-file")
+                            } label: {
+                                Image(systemName: "info")
+                            }
+                            .buttonStyle(TintedButton(color: .systemMaterial, fullwidth: true))
+                        }
                     }
                     .listRowInsets(EdgeInsets())
                     // auto reboot option
