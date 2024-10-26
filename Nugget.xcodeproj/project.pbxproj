@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		281CD97D2CCB1D63005116C7 /* SupervisionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281CD97C2CCB1D63005116C7 /* SupervisionView.swift */; };
 		281CD9812CCB2011005116C7 /* SupervisionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281CD9802CCB2011005116C7 /* SupervisionManager.swift */; };
-		281CD9832CCC7598005116C7 /* PlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281CD9822CCC7598005116C7 /* PlistManager.swift */; };
 		281CD9882CCC7C6D005116C7 /* CloudConfigurationDetails.plist in Resources */ = {isa = PBXBuildFile; fileRef = 281CD9872CCC7C6D005116C7 /* CloudConfigurationDetails.plist */; };
 		6F2A99722C9E0ABB00C8A862 /* EligibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2A99712C9E0ABB00C8A862 /* EligibilityView.swift */; };
 		6F2A99742C9E0AEF00C8A862 /* EligibilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2A99732C9E0AEF00C8A862 /* EligibilityManager.swift */; };
@@ -55,7 +54,6 @@
 /* Begin PBXFileReference section */
 		281CD97C2CCB1D63005116C7 /* SupervisionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupervisionView.swift; sourceTree = "<group>"; };
 		281CD9802CCB2011005116C7 /* SupervisionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupervisionManager.swift; sourceTree = "<group>"; };
-		281CD9822CCC7598005116C7 /* PlistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistManager.swift; sourceTree = "<group>"; };
 		281CD9872CCC7C6D005116C7 /* CloudConfigurationDetails.plist */ = {isa = PBXFileReference; explicitFileType = file.bplist; path = CloudConfigurationDetails.plist; sourceTree = "<group>"; };
 		6F2A99712C9E0ABB00C8A862 /* EligibilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityView.swift; sourceTree = "<group>"; };
 		6F2A99732C9E0AEF00C8A862 /* EligibilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityManager.swift; sourceTree = "<group>"; };
@@ -171,7 +169,6 @@
 		6F8593622C8F41F900F790D1 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				281CD9822CCC7598005116C7 /* PlistManager.swift */,
 				6F8593782C8F4C5D00F790D1 /* Tweaks */,
 				6F8594BA2C9235C600F790D1 /* ApplyHandler.swift */,
 			);
@@ -390,7 +387,6 @@
 				6F2A99722C9E0ABB00C8A862 /* EligibilityView.swift in Sources */,
 				6F8594A62C8FAC8B00F790D1 /* StatusManager.m in Sources */,
 				6F8594CF2C988C0E00F790D1 /* DeviceModel.swift in Sources */,
-				281CD9832CCC7598005116C7 /* PlistManager.swift in Sources */,
 				6F8594BE2C94B9AA00F790D1 /* BasicPlistTweaksManager.swift in Sources */,
 				6F8593B12C8F7B8400F790D1 /* xcode_saver.swift in Sources */,
 				6F8594CD2C98892900F790D1 /* FixDocumentPicker.swift in Sources */,
