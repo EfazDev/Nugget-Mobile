@@ -17,8 +17,8 @@ struct HomeView: View {
     @State var lastError: String?
     @State var path = NavigationPath()
     
-    @State private var isMinimuxerReady: Bool = false // State variable for status
-    @State private var minimuxerStatus: String = "Checking..." // Initial status message
+    @State private var isMinimuxerReady: Bool = false
+    @State private var minimuxerStatus: String = "Checking..."
     @State private var timer: Timer?
     
     // Prefs
@@ -42,50 +42,55 @@ struct HomeView: View {
                     VStack {
                         Text("Minimuxer Status: \(minimuxerStatus)").padding()
                         
-                        // apply all tweaks button
-                        HStack {
-                            Button("Apply Tweaks") {
-                                applyChanges(reverting: false)
+                        if isMinimuxerReady {
+                            // apply all tweaks button
+                            HStack {
+                                Button("Apply Tweaks") {
+                                    applyChanges(reverting: false)
+                                }
+                                .buttonStyle(TintedButton(color: .blue, fullwidth: true))
+                                Button {
+                                    UIApplication.shared.alert(title: NSLocalizedString("Info", comment: "info header"), body: NSLocalizedString("Applies all selected tweaks.", comment: "apply tweaks info"))
+                                } label: {
+                                    Image(systemName: "info")
+                                }
+                                .buttonStyle(TintedButton(material: .systemMaterial, fullwidth: false))
                             }
-                            .buttonStyle(TintedButton(color: .blue, fullwidth: true))
-                            Button {
-                                UIApplication.shared.alert(title: NSLocalizedString("Info", comment: "info header"), body: NSLocalizedString("Applies all selected tweaks.", comment: "apply tweaks info"))
-                            } label: {
-                                Image(systemName: "info")
+                            
+                            // remove all tweaks button
+                            HStack {
+                                Button("Remove All Tweaks") {
+                                    showRevertPage.toggle()
+                                }
+                                .buttonStyle(TintedButton(color: .red, fullwidth: true))
+                                .sheet(isPresented: $showRevertPage, content: {
+                                    RevertTweaksPopoverView(revertFunction: applyChanges(reverting:))
+                                })
+                                Button {
+                                    UIApplication.shared.alert(title: NSLocalizedString("Info", comment: "info header"), body: NSLocalizedString("Removes and reverts all tweaks, including mobilegestalt.", comment: "remove tweaks info"))
+                                } label: {
+                                    Image(systemName: "info")
+                                }
+                                .buttonStyle(TintedButton(material: .systemMaterial, fullwidth: false))
                             }
-                            .buttonStyle(TintedButton(material: .systemMaterial, fullwidth: false))
-                        }
-                        // apply without void button
-                        HStack {
-                            Button("Apply Tweaks without Minimuxer Check") {
-                                applyChangesNoCheck(reverting: false)
+                            
+                        } else {
+                            // apply without void button
+                            HStack {
+                                Button("Apply Tweaks without Minimuxer Check") {
+                                    applyChangesNoCheck(reverting: false)
+                                }
+                                .buttonStyle(TintedButton(color: .yellow, fullwidth: true))
+                                .sheet(isPresented: $showRevertPage, content: {
+                                    RevertTweaksPopoverView(revertFunction: applyChanges(reverting:))
+                                })
+                                Button {
+                                    UIApplication.shared.alert(title: NSLocalizedString("Info", comment: "info header"), body: NSLocalizedString("Applies all selected tweaks but doesn't check if minimuxer is available. THIS MAY NOT WORK.", comment: ""))
+                                } label: {
+                                    Image(systemName: "info")
+                                }
+                                .buttonStyle(TintedButton(material: .systemMaterial, fullwidth: false))
                             }
-                            .buttonStyle(TintedButton(color: .yellow, fullwidth: true))
-                            .sheet(isPresented: $showRevertPage, content: {
-                                RevertTweaksPopoverView(revertFunction: applyChanges(reverting:))
-                            })
-                            Button {
-                                UIApplication.shared.alert(title: NSLocalizedString("Info", comment: "info header"), body: NSLocalizedString("Applies all selected tweaks but doesn't check if minimuxer is available at start.", comment: ""))
-                            } label: {
-                                Image(systemName: "info")
-                            }
-                            .buttonStyle(TintedButton(material: .systemMaterial, fullwidth: false))
-                        }
-                        // remove all tweaks button
-                        HStack {
-                            Button("Remove All Tweaks") {
-                                showRevertPage.toggle()
-                            }
-                            .buttonStyle(TintedButton(color: .red, fullwidth: true))
-                            .sheet(isPresented: $showRevertPage, content: {
-                                RevertTweaksPopoverView(revertFunction: applyChanges(reverting:))
-                            })
-                            Button {
-                                UIApplication.shared.alert(title: NSLocalizedString("Info", comment: "info header"), body: NSLocalizedString("Removes and reverts all tweaks, including mobilegestalt.", comment: "remove tweaks info"))
-                            } label: {
-                                Image(systemName: "info")
-                            }
-                            .buttonStyle(TintedButton(material: .systemMaterial, fullwidth: false))
                         }
                         // select pairing file button
                         if !ApplyHandler.shared.trollstore {
@@ -384,10 +389,14 @@ struct HomeView: View {
             isMinimuxerReady = false
         }
 
-        if isMinimuxerReady {
-            minimuxerStatus = "Ready!"
+        if pairingFile == nil {
+            minimuxerStatus = "Please select a pairing file!"
         } else {
-            minimuxerStatus = "Not Ready"
+            if isMinimuxerReady {
+                minimuxerStatus = "Ready!"
+            } else {
+                minimuxerStatus = "Not Ready"
+            }
         }
     }
 }
