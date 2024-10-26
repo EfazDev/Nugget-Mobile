@@ -91,7 +91,27 @@ class EligibilityManager: ObservableObject {
         }
     }
     
+    func getDeviceCode() -> String {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let modelCode = withUnsafePointer(to: &systemInfo.machine) {
+            $0.withMemoryRebound(to: CChar.self, capacity: 1) {
+                ptr in String.init(validatingUTF8: ptr)
+            }
+        }
+        if let validModelCode = modelCode, !validModelCode.isEmpty {
+            return validModelCode
+        } else {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                return "iPad13,16"
+            } else {
+                return "iPhone17,3"
+            }
+        }
+    }
+    
     func setDeviceModelCode(_ enabled: Any, _ new_model: Any) {
+        let model = getDeviceCode()
         if let enabledBool = enabled as? Bool, enabledBool {
             spoofingDevice = enabledBool
         } else {
@@ -103,15 +123,11 @@ class EligibilityManager: ObservableObject {
             }
             if let newModelInt = new_model as? String, newModelInt != "-1" {
                 MobileGestaltManager.shared.setGestaltValue(key: "h9jDsbgj7xIVeIQ8S3/X3Q", value: new_model)
-            } else if let model = MobileGestaltManager.shared.deviceModel {
+            } else {
                 MobileGestaltManager.shared.setGestaltValue(key: "h9jDsbgj7xIVeIQ8S3/X3Q", value: model)
             }
         } else {
-            if let model = MobileGestaltManager.shared.deviceModel {
-                MobileGestaltManager.shared.setGestaltValue(key: "h9jDsbgj7xIVeIQ8S3/X3Q", value: model)
-            } else {
-                MobileGestaltManager.shared.removeGestaltValue(key: "h9jDsbgj7xIVeIQ8S3/X3Q")
-            }
+            MobileGestaltManager.shared.setGestaltValue(key: "h9jDsbgj7xIVeIQ8S3/X3Q", value: model)
         }
     }
 

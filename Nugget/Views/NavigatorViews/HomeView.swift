@@ -79,23 +79,6 @@ struct HomeView: View {
                                 .buttonStyle(TintedButton(material: .systemMaterial, fullwidth: false))
                             }
                             
-                        } else {
-                            // apply without void button
-                            HStack {
-                                Button("Apply Tweaks without Minimuxer Check") {
-                                    applyChangesNoCheck(reverting: false)
-                                }
-                                .buttonStyle(TintedButton(color: .yellow, fullwidth: true))
-                                .sheet(isPresented: $showRevertPage, content: {
-                                    RevertTweaksPopoverView(revertFunction: applyChanges(reverting:))
-                                })
-                                Button {
-                                    UIApplication.shared.alert(title: NSLocalizedString("Info", comment: "info header"), body: NSLocalizedString("Applies all selected tweaks but doesn't check if minimuxer is available or prompt the minimuxer is not ready message. THIS WILL NOT WORK.", comment: ""))
-                                } label: {
-                                    Image(systemName: "info")
-                                }
-                                .buttonStyle(TintedButton(material: .systemMaterial, fullwidth: false))
-                            }
                         }
                         // select pairing file button
                         if !ApplyHandler.shared.trollstore {

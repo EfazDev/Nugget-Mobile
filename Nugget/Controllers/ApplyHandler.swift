@@ -30,7 +30,7 @@ class ApplyHandler: ObservableObject {
     
     @Published var enabledTweaks: Set<TweakPage> = []
     @Published var removingTweaks: Set<TweakPage> = [
-        .MobileGestalt, .FeatureFlags, .SpringBoard, .Internal, .Supervision
+        .MobileGestalt, .FeatureFlags, .SpringBoard, .Internal
     ]
     
     @Published var trollstore: Bool = false
@@ -98,10 +98,12 @@ class ApplyHandler: ObservableObject {
                 "CloudConfigurationUIComplete": true,
                 "IsSupervised": false
             ]
-            if self.enabledTweaks.contains(.Supervision) {
-                cloudConfigPlist["IsSupervised"] = supervisionManager.supervisionEnabler
-                cloudConfigPlist["OrganizationName"] = supervisionManager.supervisionEnabler ? supervisionManager.supervisionName : ""
-                print("Applied supervision! Name: \(String(describing: cloudConfigPlist["OrganizationName"]))")
+            if resetting == false {
+                if self.enabledTweaks.contains(.Supervision) {
+                    cloudConfigPlist["IsSupervised"] = supervisionManager.supervisionEnabler
+                    cloudConfigPlist["OrganizationName"] = supervisionManager.supervisionEnabler ? supervisionManager.supervisionName : ""
+                    print("Applied supervision! Name: \(String(describing: cloudConfigPlist["OrganizationName"]))")
+                }
             }
             cloudConfigData = try PropertyListSerialization.data(fromPropertyList: cloudConfigPlist, format: .xml, options: 0)
             if (addedSupervisionData == false) {
@@ -118,10 +120,12 @@ class ApplyHandler: ObservableObject {
                     "CloudConfigurationUIComplete": true,
                     "IsSupervised": false
                 ]
-                if self.enabledTweaks.contains(.Supervision) {
-                    cloudConfigPlist["IsSupervised"] = supervisionManager.supervisionEnabler
-                    cloudConfigPlist["OrganizationName"] = supervisionManager.supervisionEnabler ? supervisionManager.supervisionName : ""
-                    print("Applied supervision! Name: \(String(describing: cloudConfigPlist["OrganizationName"]))")
+                if resetting == false {
+                    if self.enabledTweaks.contains(.Supervision) {
+                        cloudConfigPlist["IsSupervised"] = supervisionManager.supervisionEnabler
+                        cloudConfigPlist["OrganizationName"] = supervisionManager.supervisionEnabler ? supervisionManager.supervisionName : ""
+                        print("Applied supervision! Name: \(String(describing: cloudConfigPlist["OrganizationName"]))")
+                    }
                 }
                 
                 cloudConfigData = try PropertyListSerialization.data(fromPropertyList: cloudConfigPlist, format: .xml, options: 0)

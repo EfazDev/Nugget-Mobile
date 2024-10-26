@@ -19,13 +19,14 @@ struct EligibilityView: View {
         var id = UUID()
         var key: String
         var title: String
+        var alternateTitle: String?
         var minVersion: Version = Version(string: "18.1")
     }
 
     @State private var spoofDeviceStack: [DeviceSubType] = {
         if UIDevice.current.userInterfaceIdiom == .pad {
             return [
-                .init(key: "-1", title: NSLocalizedString("Original (Default)", comment: "default device subtype")),
+                .init(key: "-1", title: NSLocalizedString("\(UIDevice().modelName) (\(EligibilityManager.shared.getDeviceCode())) (Original)", comment: "")),
                 .init(key: "iPad16,1", title: NSLocalizedString("iPad Mini (A17 Pro) (W)", comment: "")),
                 .init(key: "iPad16,2", title: NSLocalizedString("iPad Mini (A17 Pro) (C)", comment: "")),
             
@@ -52,7 +53,7 @@ struct EligibilityView: View {
             ]
         } else {
             return [
-                .init(key: "-1", title: NSLocalizedString("Original (Default)", comment: "default device subtype")),
+                .init(key: "-1", title: NSLocalizedString("\(UIDevice().modelName) (OG)", comment: EligibilityManager.shared.getDeviceCode())),
                 .init(key: "iPhone16,1", title: NSLocalizedString("iPhone 15 Pro", comment: "")),
                 .init(key: "iPhone16,2", title: NSLocalizedString("iPhone 15 Pro Max", comment: "")),
                 .init(key: "iPhone17,3", title: NSLocalizedString("iPhone 16", comment: "")),
@@ -113,16 +114,17 @@ struct EligibilityView: View {
                                     Image(systemName: "ipodtouch")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: 24, height: 24)
+                                        .frame(width: 20, height: 20)
                                         .foregroundColor(.blue)
                                     
                                     Text("Spoofing Model").minimumScaleFactor(0.5)
                                     Spacer()
                                     
-                                    let picker_label = Text("").hidden()
-                                    Picker(selection: $CurrentSubType, label: picker_label) {
+                                    Picker(selection: $CurrentSubType, label: Text("")) {
                                         ForEach(spoofDeviceStack) { device in
-                                            Text(device.title).tag(device.key)
+                                            Text(device.title)
+                                                .tag(device.key)
+                                                .font(.system(size: 12))
                                         }
                                     }
                                     .onChange(of: CurrentSubType) { nv in
@@ -131,6 +133,7 @@ struct EligibilityView: View {
                                             manager.setDeviceModelCode(changeDeviceModel, String(nv))
                                         }
                                     }
+                                    .pickerStyle(DefaultPickerStyle())
                                 }
                             }
                         }

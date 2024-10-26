@@ -136,13 +136,13 @@ public extension UIDevice {
                 ptr in String.init(validatingUTF8: ptr)
             }
         }
-    
+        
         let modelMap : [String: Model] = [
-    
+
             //Simulator
             "i386"      : .simulator,
             "x86_64"    : .simulator,
-    
+
             //iPod
             "iPod1,1"   : .iPod1,
             "iPod2,1"   : .iPod2,
@@ -151,7 +151,7 @@ public extension UIDevice {
             "iPod5,1"   : .iPod5,
             "iPod7,1"   : .iPod6,
             "iPod9,1"   : .iPod7,
-    
+
             //iPad
             "iPad2,1"   : .iPad2,
             "iPad2,2"   : .iPad2,
@@ -175,7 +175,7 @@ public extension UIDevice {
             "iPad12,2"  : .iPad9,
             "iPad13,18" : .iPad10,
             "iPad13,19" : .iPad10,
-    
+
             //iPad Mini
             "iPad2,5"   : .iPadMini,
             "iPad2,6"   : .iPadMini,
@@ -192,7 +192,7 @@ public extension UIDevice {
             "iPad11,2"  : .iPadMini5,
             "iPad14,1"  : .iPadMini6,
             "iPad14,2"  : .iPadMini6,
-    
+
             //iPad Pro
             "iPad6,3"   : .iPadPro9_7,
             "iPad6,4"   : .iPadPro9_7,
@@ -222,7 +222,7 @@ public extension UIDevice {
             "iPad13,9"  : .iPadPro5_12_9,
             "iPad13,10" : .iPadPro5_12_9,
             "iPad13,11" : .iPadPro5_12_9,
-    
+
             //iPad Air
             "iPad4,1"   : .iPadAir,
             "iPad4,2"   : .iPadAir,
@@ -235,7 +235,7 @@ public extension UIDevice {
             "iPad13,2"  : .iPadAir4,
             "iPad13,16" : .iPadAir5,
             "iPad13,17" : .iPadAir5,
-    
+
             //iPhone
             "iPhone3,1" : .iPhone4,
             "iPhone3,2" : .iPhone4,
@@ -319,7 +319,7 @@ public extension UIDevice {
             "Watch6,7" : .AppleWatchS7,
             "Watch6,8" : .AppleWatchS7,
             "Watch6,9" : .AppleWatchS7,
-    
+
             //Apple TV
             "AppleTV1,1" : .AppleTV1,
             "AppleTV2,1" : .AppleTV2,
@@ -340,5 +340,8 @@ public extension UIDevice {
             }
         }
         return model
+    }
+    var modelName: String {
+        return type.rawValue
     }
 }
