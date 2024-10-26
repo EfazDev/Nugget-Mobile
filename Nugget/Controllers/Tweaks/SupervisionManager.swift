@@ -14,7 +14,7 @@ class SupervisionManager: NSObject, ObservableObject {
     @Published var supervisionName: String = ""
     
     func apply() throws -> Data {
-        if let filePath = Bundle.main.path(forResource: "CloudConfigurationDetails", ofType: "plist", inDirectory: "Supervision") {
+        if let filePath = Bundle.main.path(forResource: "CloudConfigurationDetails", ofType: "plist", inDirectory: "Controllers/Tweaks/Supervision") {
             let overridesURL = URL(fileURLWithPath: filePath)
             guard let plist = NSMutableDictionary(contentsOf: overridesURL) else {
                 return Data()
