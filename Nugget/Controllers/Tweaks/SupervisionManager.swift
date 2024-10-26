@@ -6,12 +6,33 @@
 //
 
 import Foundation
-import UIKit
+import SwiftUI
 
-class SupervisionManager: ObservableObject {
+class SupervisionManager: NSObject, ObservableObject {
     static let shared = SupervisionManager()
     @Published var supervisionEnabler: Bool = false
     @Published var supervisionName: String = ""
+    
+    func apply() throws -> Data {
+        if let filePath = Bundle.main.path(forResource: "CloudConfigurationDetails", ofType: "plist", inDirectory: "Supervision") {
+            let overridesURL = URL(fileURLWithPath: filePath)
+            guard let plist = NSMutableDictionary(contentsOf: overridesURL) else {
+                return Data()
+            }
+            plist["IsSupervised"] = supervisionEnabler
+            plist["OrganizationName"] = supervisionEnabler ? supervisionName : ""
+            let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
+         
+            try data.write(to: overridesURL)
+            return data
+        } else {
+            return Data()
+        }
+    }
+    
+    func reset() throws -> Data {
+        return Data()
+    }
     
     func toggleSupervision(_ enabled: Bool) {
         supervisionEnabler = enabled
@@ -21,24 +42,5 @@ class SupervisionManager: ObservableObject {
         if let organizationNamee = organizationName as? String, organizationNamee != "-1" {
             supervisionName = organizationNamee
         }
-    }
-
-    func apply() throws -> Data? {
-        let cloudData = try Data(contentsOf: URL(fileURLWithPath: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/CloudConfigurationDetails.plist"))
-        var plist = try PropertyListSerialization.propertyList(from: cloudData, options: [], format: nil) as! [String: Any]
-        if supervisionEnabler {
-            plist["IsSupervised"] = (supervisionEnabler == true)
-            plist["OrganizationName"] = supervisionName
-        } else {
-            plist["IsSupervised"] = false
-        }
-        
-        return try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
-    }
-    
-    func reset() -> Data {
-        let cloudURL = URL.tweaksDirectory.appendingPathComponent("/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/CloudConfigurationDetails.plist")
-        try? FileManager.default.removeItem(at: cloudURL)
-        return Data()
     }
 }

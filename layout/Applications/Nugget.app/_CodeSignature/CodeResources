@@ -16,6 +16,10 @@
 		<data>
 		T/tgJAjZa9hk0tpOy3FCXdKsKms=
 		</data>
+		<key>CloudConfigurationDetails.plist</key>
+		<data>
+		U7NCrHO+cxwIo1oQ24B2Y/miLAo=
+		</data>
 		<key>Config.plist</key>
 		<data>
 		weRIatGrvP9ccI9Rw257vF5Jk1g=
@@ -58,6 +62,13 @@
 			<key>hash2</key>
 			<data>
 			Vl6oA33dQIpLRZrDl0HtuU8kyQsOwEMQQsiTtex4ZSI=
+			</data>
+		</dict>
+		<key>CloudConfigurationDetails.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			k4+fFPNODV9e+VjF95rY5sQFGVeo3KCU9LLrv+cj2Jo=
 			</data>
 		</dict>
 		<key>Config.plist</key>
