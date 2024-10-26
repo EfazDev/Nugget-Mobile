@@ -17,6 +17,10 @@ struct HomeView: View {
     @State var lastError: String?
     @State var path = NavigationPath()
     
+    @State private var isMinimuxerReady: Bool = false // State variable for status
+    @State private var minimuxerStatus: String = "Checking..." // Initial status message
+    @State private var timer: Timer?
+    
     // Prefs
     @AppStorage("AutoReboot") var autoReboot: Bool = true
     @AppStorage("PairingFile") var pairingFile: String?
@@ -36,6 +40,9 @@ struct HomeView: View {
                 // MARK: Tweak Options
                 Section {
                     VStack {
+                        Label("Minimuxer Status: \(minimuxerStatus)", systemImage: "info")
+                                            .padding()
+                        
                         // apply all tweaks button
                         HStack {
                             Button("Apply Tweaks") {
@@ -350,5 +357,32 @@ struct HomeView: View {
             cStrings.forEach { free($0) }
         }
         return body(cStrings)
+    }
+    
+    private func startMinimuxerStatusCheck() {
+        // Schedule a timer to check minimuxer status every second
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
+            checkMinimuxerStatus()
+        }
+    }
+
+    private func stopMinimuxerStatusCheck() {
+        // Invalidate the timer when the view disappears
+        timer?.invalidate()
+        timer = nil
+    }
+
+    private func checkMinimuxerStatus() {
+        if ApplyHandler.shared.trollstore || ready() {
+            isMinimuxerReady = true
+        } else {
+            isMinimuxerReady = false
+        }
+
+        if isMinimuxerReady {
+            minimuxerStatus = "Ready!"
+        } else {
+            minimuxerStatus = "Not Ready"
+        }
     }
 }

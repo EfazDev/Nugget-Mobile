@@ -104,7 +104,6 @@ class ApplyHandler: ObservableObject {
             }
             
             cloudConfigData = try PropertyListSerialization.data(fromPropertyList: cloudConfigPlist, format: .xml, options: 0)
-            files.append(FileToRestore(contents: cloudConfigData, path: "/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"))
         case .SkipSetup:
             // Apply the skip setup file
             var cloudConfigData: Data = Data()
@@ -131,7 +130,7 @@ class ApplyHandler: ObservableObject {
                 purpleBuddyData = try PropertyListSerialization.data(fromPropertyList: purpleBuddyPlist, format: .xml, options: 0)
             }
             if resetting || !self.isExploitOnly() {
-                files.append(FileToRestore(contents: cloudConfigData, path: "/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"))
+                files.append(FileToRestore(contents: cloudConfigData, path: "/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"))
                 if !self.isExploitOnly() {
                     files.append(FileToRestore(contents: purpleBuddyData, path: "ManagedPreferencesDomain/mobile/com.apple.purplebuddy.plist"))
                 }
