@@ -104,7 +104,7 @@ class ApplyHandler: ObservableObject {
                     "CloudConfigurationUIComplete": true,
                     "IsSupervised": false
                 ]
-                if (storedSupervisionData != nil) {
+                if self.enabledTweaks.contains(.Supervision) {
                     if (supervisionManager.supervisionEnabler) {
                         cloudConfigPlist["IsSupervised"] = supervisionManager.supervisionEnabler
                         cloudConfigPlist["OrganizationName"] = supervisionManager.supervisionName
