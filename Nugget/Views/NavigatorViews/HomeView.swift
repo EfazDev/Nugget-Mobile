@@ -90,7 +90,7 @@ struct HomeView: View {
                                     RevertTweaksPopoverView(revertFunction: applyChanges(reverting:))
                                 })
                                 Button {
-                                    UIApplication.shared.alert(title: NSLocalizedString("Info", comment: "info header"), body: NSLocalizedString("Applies all selected tweaks but doesn't check if minimuxer is available. THIS MAY NOT WORK.", comment: ""))
+                                    UIApplication.shared.alert(title: NSLocalizedString("Info", comment: "info header"), body: NSLocalizedString("Applies all selected tweaks but doesn't check if minimuxer is available or prompt the minimuxer is not ready message. THIS WILL NOT WORK.", comment: ""))
                                 } label: {
                                     Image(systemName: "info")
                                 }

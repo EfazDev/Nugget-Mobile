@@ -14,4 +14,3 @@ bash ipabuild.sh
 
 mkdir -p build
 mv *.ipa build/
-zip -r artifact.zip build
