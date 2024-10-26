@@ -92,7 +92,7 @@ class ApplyHandler: ObservableObject {
         case .Supervision:
             // Apply supervision
             let supervisionData: Data = resetting ? try supervisionManager.reset() : try supervisionManager.apply()
-            files.append(FileToRestore(contents: supervisionData, path: "SysSharedContainerDomain-./ConfigProfileDomain/Library/ConfigurationProfiles/Library/ConfigurationProfiles/CloudConfigurationDetails.plist", usesInodes: false))
+            files.append(FileToRestore(contents: supervisionData, path: "ConfigProfileDomain/Library/ConfigurationProfiles/CloudConfigurationDetails.plist", usesInodes: false))
         case .SkipSetup:
             // Apply the skip setup file
             var cloudConfigData: Data = Data()
