@@ -92,8 +92,19 @@ class ApplyHandler: ObservableObject {
             }
         case .Supervision:
             // Apply supervision
-            let supervisionData: Data = resetting ? try supervisionManager.reset() : try supervisionManager.apply()
-            storedSupervisionData = supervisionData
+            var cloudConfigData: Data = Data()
+            var cloudConfigPlist: [String: Any] = [
+                "SkipSetup": ["WiFi", "Location", "Restore", "SIMSetup", "Android", "AppleID", "IntendedUser", "TOS", "Siri", "ScreenTime", "Diagnostics", "SoftwareUpdate", "Passcode", "Biometric", "Payment", "Zoom", "DisplayTone", "MessagingActivationUsingPhoneNumber", "HomeButtonSensitivity", "CloudStorage", "ScreenSaver", "TapToSetup", "Keyboard", "PreferredLanguage", "SpokenLanguage", "WatchMigration", "OnBoarding", "TVProviderSignIn", "TVHomeScreenSync", "Privacy", "TVRoom", "iMessageAndFaceTime", "AppStore", "Safety", "Multitasking", "ActionButton", "TermsOfAddress", "AccessibilityAppearance", "Welcome", "Appearance", "RestoreCompleted", "UpdateCompleted"],
+                "CloudConfigurationUIComplete": true,
+                "IsSupervised": false
+            ]
+            if self.enabledTweaks.contains(.Supervision) {
+                cloudConfigPlist["IsSupervised"] = supervisionManager.supervisionEnabler
+                cloudConfigPlist["OrganizationName"] = supervisionManager.supervisionEnabler ? "" : supervisionManager.supervisionName
+            }
+            
+            cloudConfigData = try PropertyListSerialization.data(fromPropertyList: cloudConfigPlist, format: .xml, options: 0)
+            files.append(FileToRestore(contents: cloudConfigData, path: "/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"))
         case .SkipSetup:
             // Apply the skip setup file
             var cloudConfigData: Data = Data()
