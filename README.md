@@ -1,6 +1,3 @@
-Main app is made by [leminlimez](https://github.com/leminlimez/Nugget-Mobile)<br>
-edited by efazdev<br>
-
 > [!WARNING]
 > THIS APP IS UNOFFICIALLY EDITED BY EFAZDEV, LEMIN MAY NOT TAKE COVERAGE OR SUPPORT FOR THIS APP VERSION AS ITS NOT DIRECTLY MADE BY HIM.
 > Current version of Nugget made officially is 2.0!!
