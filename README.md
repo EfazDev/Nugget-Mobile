@@ -17,7 +17,10 @@ If you are having issues with minimuxer, see the [Solving Minimuxer Issues](#sol
 This uses the sparserestore exploit to write to files outside of the intended restore location, like mobilegestalt.
 
 Note: I am not responsible if your device bootloops, use this software with caution. Please back up your data before using!
-[Download Latest Version](https://raw.githubusercontent.com/EfazDev/nugget-mobile/refs/heads/main/build/Nugget.ipa)
+
+## Download
+IPA File: [Download Latest Version](https://raw.githubusercontent.com/EfazDev/nugget-mobile/refs/heads/main/build/Nugget.ipa)
+LeminLimez GitHub: [Nugget-Mobile](https://github.com/leminlimez/Nugget-Mobile), [leminlimez](https://github.com/leminlimez)
 
 ## Getting Your mobiledevicepairing File
 To get the pairing file, use the following steps:
@@ -38,6 +41,11 @@ You should only have to do this once unless you lose the file and delete the app
 ## Solving Minimuxer Issues
 Try reading a new mobiledevicepairing file. If that doesn't work, try using `Cowabunga Lite` and clicking the `Deep Clean` button, then try the steps again.
 If not even that works, the only solution I know is to wipe the device (not ideal). I would recommend using [Nugget Python](https://github.com/leminlimez/Nugget) instead in this case.
+
+## Rebuilding Process
+1. In order for rebuilding, install Xcode 15.3 with Swift 5.10 and modules gmake, git, Homebrew and theos.
+2. Once they're installed, run `fullbuild.sh`. This will build the ipa into the ./build folder
+3. Done!
 
 ## Credits
 - [leminlimez](https://github.com/leminlimez) Original creator of Nugget!
