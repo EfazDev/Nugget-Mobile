@@ -19,7 +19,7 @@ This uses the sparserestore exploit to write to files outside of the intended re
 Note: I am not responsible if your device bootloops, use this software with caution. Please back up your data before using!
 
 ## Download
-IPA File: [Download Latest Version](https://raw.githubusercontent.com/EfazDev/nugget-mobile/refs/heads/main/build/Nugget.ipa)
+IPA File: [Download Latest Version](https://raw.githubusercontent.com/EfazDev/nugget-mobile/refs/heads/main/build/Nugget.ipa)<br>
 LeminLimez GitHub: [Nugget-Mobile](https://github.com/leminlimez/Nugget-Mobile), [leminlimez](https://github.com/leminlimez)
 
 ## Getting Your mobiledevicepairing File
