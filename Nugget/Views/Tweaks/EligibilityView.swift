@@ -99,7 +99,7 @@ struct EligibilityView: View {
                                 Text("Spoof Device Model")
                                 Spacer()
                                 Button(action: {
-                                    showInfoAlert(NSLocalizedString("Spoofs your device model to the selected device that supports Apple Intelligence, allowing you to download the AI models.\n\nTurn this on to download the models, then turn this off and reapply after the models are downloading.\n\nNote: While this is on, it may break Face ID. Reverting the file will fix it.", comment: "Device model changer info popup"))
+                                    showInfoAlert(NSLocalizedString("Spoofs your device model to the selected device that supports Apple Intelligence, allowing you to download the AI models. \n\nWARNING: Enabling Apple Intelligence while not spoofing a device that supports AI will cause a redownload which will never end. Please be warned!!", comment: "Device model changer info popup"))
                                 }) {
                                     Image(systemName: "info.circle")
                                 }

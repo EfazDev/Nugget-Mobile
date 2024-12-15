@@ -23,6 +23,10 @@ func ready() -> Bool {
     return true
 }
 
+func is_xcode_build() -> Bool {
+    return true
+}
+
 func idevicebackup2_main(_ a: Int32, _ b: inout [UnsafeMutablePointer<CChar>?]) {
     return
 }

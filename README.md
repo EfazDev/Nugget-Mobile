@@ -1,6 +1,6 @@
 > [!WARNING]
 > THIS APP IS UNOFFICIALLY EDITED BY EFAZDEV, LEMIN MAY NOT TAKE COVERAGE OR SUPPORT FOR THIS APP VERSION AS ITS NOT DIRECTLY MADE BY HIM.
-> Current version of Nugget made officially is 2.0!!
+> Current version of Nugget made officially is 2.0.1!!
 
 ![Artboard](https://github.com/leminlimez/Nugget-Mobile/blob/1881fdc2b721fd2675a2909e7fbc24769d11bb53/readme-images/icon.png)
 

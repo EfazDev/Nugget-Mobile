@@ -18,8 +18,11 @@ struct HomeView: View {
     @State var path = NavigationPath()
     
     @State private var isMinimuxerReady: Bool = false
+    @State private var isXcodeBuildMode: Bool = false
     @State private var minimuxerStatus: String = "Checking..."
+    @State private var skip_xcode_build_mode: Bool = false
     @State private var timer: Timer?
+    @StateObject var eligibilityManager = EligibilityManager.shared
     
     // Prefs
     @AppStorage("AutoReboot") var autoReboot: Bool = true
@@ -65,6 +68,13 @@ struct HomeView: View {
                             // remove all tweaks button
                             HStack {
                                 Button("Remove All Tweaks") {
+                                    if !(skip_xcode_build_mode == true) && is_xcode_build() {
+                                        UIApplication.shared.confirmAlert(title: "Warning!", body: "You're currently in Xcode Build mode! Please build the app from theos in order to actually apply changes! You will be continuing with applying broken.", onOK: {
+                                            skip_xcode_build_mode = true
+                                            showRevertPage.toggle()
+                                        }, noCancel: false)
+                                        return
+                                    }
                                     showRevertPage.toggle()
                                 }
                                 .buttonStyle(TintedButton(color: .red, fullwidth: true))
@@ -230,57 +240,50 @@ struct HomeView: View {
     }
     
     func applyChanges(reverting: Bool) {
-            if ApplyHandler.shared.trollstore || ready() {
-                if !reverting && ApplyHandler.shared.allEnabledTweaks().isEmpty {
-                    // if there are no enabled tweaks then tell the user
-                    UIApplication.shared.alert(body: "You do not have any tweaks enabled! Go to the tools page to select some.")
-                } else if ApplyHandler.shared.isExploitOnly() {
-                    path.append(reverting ? "RevertChanges" : "ApplyChanges")
-                } else if !ApplyHandler.shared.trollstore {
-                    // if applying non-exploit files, warn about setup
-                    UIApplication.shared.confirmAlert(title: "Warning!", body: "You are applying non-exploit related files. This will make the setup screen appear. Click Cancel if you do not wish to proceed.\n\nWhen setting up, you MUST click \"Do not transfer apps & data\".\n\nIf you see a screen that says \"iPhone Partially Set Up\", DO NOT tap the big blue button. You must click \"Continue with Partial Setup\".", onOK: {
-                        path.append(reverting ? "RevertChanges" : "ApplyChanges")
-                    }, noCancel: false)
-                }
-            } else if pairingFile == nil {
-                lastError = "Please select your pairing file to continue."
-                showErrorAlert.toggle()
-            } else {
-                lastError = "minimuxer is not ready. Ensure you have WiFi and WireGuard VPN set up."
-                showErrorAlert.toggle()
-            }
+        if !(skip_xcode_build_mode == true) && is_xcode_build() {
+            UIApplication.shared.confirmAlert(title: "Warning!", body: "You're currently in Xcode Build mode! Please build the app from theos in order to actually apply changes! You will be continuing with applying broken.", onOK: {
+                skip_xcode_build_mode = true
+                applyChanges(reverting: reverting)
+            }, noCancel: false)
+            return
         }
-    
-    func applyChangesNoCheck(reverting: Bool) {
         if ApplyHandler.shared.trollstore || ready() {
+            func a() {
+                if ApplyHandler.shared.enabledTweaks.contains(.Eligibility) {
+                    if (eligibilityManager.aiEnabler == true && eligibilityManager.spoofingDevice == false) {
+                        UIApplication.shared.confirmAlert(title: "CAUTION!", body: "You are trying to apply the Apple Intelligence tweak without spoofing your device. Please note that if your original device does not support Apple Intelligence, it will trigger a re-download that will require a complete restore to function properly again. \n\nIn order to prevent this and do stuff like updating, PLEASE DISABLE APPLE INTELLIGENCE IN THE SETTINGS APP FIRST. If you have disabled it, you may continue without issues! However, you have been WARNED!", onOK: {
+                            path.append(reverting ? "RevertChanges" : "ApplyChanges")
+                        }, noCancel: false)
+                    } else {
+                        if (eligibilityManager.aiEnabler == true && eligibilityManager.spoofingDevice == true && eligibilityManager.selectedModel == "-1") {
+                            UIApplication.shared.confirmAlert(title: "CAUTION!", body: "You are trying to apply the Apple Intelligence tweak without spoofing your device. Please note that if your original device does not support Apple Intelligence, it will trigger a re-download that will require a complete restore to function properly again. \n\nIn order to prevent this and do stuff like updating, PLEASE DISABLE APPLE INTELLIGENCE IN THE SETTINGS APP FIRST. If you have disabled it, you may continue without issues! However, you have been WARNED!", onOK: {
+                                path.append(reverting ? "RevertChanges" : "ApplyChanges")
+                            }, noCancel: false)
+                        } else {
+                            path.append(reverting ? "RevertChanges" : "ApplyChanges")
+                        }
+                    }
+                } else {
+                    path.append(reverting ? "RevertChanges" : "ApplyChanges")
+                }
+            }
             if !reverting && ApplyHandler.shared.allEnabledTweaks().isEmpty {
                 // if there are no enabled tweaks then tell the user
                 UIApplication.shared.alert(body: "You do not have any tweaks enabled! Go to the tools page to select some.")
             } else if ApplyHandler.shared.isExploitOnly() {
-                path.append(reverting ? "RevertChanges" : "ApplyChanges")
+                a()
             } else if !ApplyHandler.shared.trollstore {
                 // if applying non-exploit files, warn about setup
                 UIApplication.shared.confirmAlert(title: "Warning!", body: "You are applying non-exploit related files. This will make the setup screen appear. Click Cancel if you do not wish to proceed.\n\nWhen setting up, you MUST click \"Do not transfer apps & data\".\n\nIf you see a screen that says \"iPhone Partially Set Up\", DO NOT tap the big blue button. You must click \"Continue with Partial Setup\".", onOK: {
-                    path.append(reverting ? "RevertChanges" : "ApplyChanges")
+                    a()
                 }, noCancel: false)
             }
         } else if pairingFile == nil {
             lastError = "Please select your pairing file to continue."
             showErrorAlert.toggle()
         } else {
-            if !reverting && ApplyHandler.shared.allEnabledTweaks().isEmpty {
-                // if there are no enabled tweaks then tell the user
-                UIApplication.shared.alert(body: "You do not have any tweaks enabled! Go to the tools page to select some.")
-            } else if ApplyHandler.shared.isExploitOnly() {
-                UIApplication.shared.confirmAlert(title: "WARNING!", body: "You're applying files without minimuxer ready! This may cause issues!! Please also make sure Wireguard and Wi-Fi is available!", onOK: {
-                    path.append(reverting ? "RevertChanges" : "ApplyChanges")
-                }, noCancel: false)
-            } else if !ApplyHandler.shared.trollstore {
-                // if applying non-exploit files, warn about setup
-                UIApplication.shared.confirmAlert(title: "WARNING!", body: "You are applying non-exploit related files with minimuxer not ready! This will cause issues!! Please also make sure Wireguard and Wi-Fi is available! This also will make the setup screen appear. Click Cancel if you do not wish to proceed.\n\nWhen setting up, you MUST click \"Do not transfer apps & data\".\n\nIf you see a screen that says \"iPhone Partially Set Up\", DO NOT tap the big blue button. You must click \"Continue with Partial Setup\".", onOK: {
-                    path.append(reverting ? "RevertChanges" : "ApplyChanges")
-                }, noCancel: false)
-            }
+            lastError = "minimuxer is not ready. Ensure you have WiFi and WireGuard VPN set up."
+            showErrorAlert.toggle()
         }
     }
     
@@ -382,15 +385,22 @@ struct HomeView: View {
                 minimuxerStatus = "Select a pairing file!"
             }
         } else {
-            if ApplyHandler.shared.trollstore || ready() {
+            if is_xcode_build() {
                 isMinimuxerReady = true
+                isXcodeBuildMode = true
+                minimuxerStatus = "Xcode Build Mode"
             } else {
-                isMinimuxerReady = false
-            }
-            if isMinimuxerReady {
-                minimuxerStatus = "Ready!"
-            } else {
-                minimuxerStatus = "Not Ready"
+                isXcodeBuildMode = false
+                if ApplyHandler.shared.trollstore || ready() {
+                    isMinimuxerReady = true
+                } else {
+                    isMinimuxerReady = false
+                }
+                if isMinimuxerReady {
+                    minimuxerStatus = "Ready!"
+                } else {
+                    minimuxerStatus = "Not Ready"
+                }
             }
         }
     }

@@ -4,6 +4,9 @@ public func describe_error(_ error: MinimuxerError) -> RustString {
 public func ready() -> Bool {
     __swift_bridge__$ready()
 }
+public func is_xcode_build() -> Bool {
+    return false;
+}
 public func set_debug(_ debug: Bool) {
     __swift_bridge__$set_debug(debug)
 }
